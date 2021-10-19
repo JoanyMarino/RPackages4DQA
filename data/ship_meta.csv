@@ -1,0 +1,30 @@
+VAR_NAMES,LABEL,DATA_TYPE,VALUE_LABELS,MISSING_LIST,JUMP_LIST,HARD_LIMITS,DETECTION_LIMITS,CONTRADICTIONS,SOFT_LIMITS,DISTRIBUTION,DECIMALS,DATA_ENTRY_TYPE,KEY_OBSERVER,KEY_DEVICE,KEY_DATETIME,KEY_STUDY_SEGMENT,VARIABLE_ROLE,VARIABLE_ORDER,LONG_LABEL
+id,ID,integer,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,INTRO,intro,1,NA
+exdate,EXAM_DT_0,datetime,NA,NA,NA,[1995-01-01 00:00:00 CET;),NA,NA,NA,NA,NA,NA,NA,NA,NA,INTRO,process,2,NA
+sex,SEX_0,integer,1 = males | 2 = females,NA,NA,NA,NA,1005,NA,NA,NA,NA,NA,NA,NA,INTRO,intro,3,NA
+age,AGE_0,integer,NA,NA,NA,[20;Inf),NA,NA,NA,NA,NA,NA,NA,NA,NA,INTRO,intro,4,NA
+obs_bp,OBS_BP_0,integer,1 = Obs_01 | 2 = Obs_02 | 3 = Obs_03 | 4 = Obs_04 | 5 = Obs_05 | 6 = Obs_06 | 7 = Obs_07 | 8 = Obs_08 | 9 = Obs_09 | 10 = Obs_10 | 11 = Obs_11 | 12 = Obs_12 | 13 = Obs_13 | 14 = Obs_14 | 15 = Obs_15 | 16 = Obs_16 | 17 = Obs_17 | 18 = Obs_18 | 19 = Obs_19 | 20 = Obs_20,99900 | 99901 | 99902,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,SOMATOMETRY,process,5,NA
+dev_bp,DEV_BP_0,integer,1 = Dev_01 | 2 = Dev_02 | 3 = Dev_03 | 4 = Dev_04 | 5 = Dev_05 | 6 = Dev_06 | 7 = Dev_07 | 8 = Dev_08 | 9 = Dev_09 | 10 = Dev_10 | 11 = Dev_11 | 12 = Dev_12 | 13 = Dev_13 | 14 = Dev_14 | 15 = Dev_15 | 16 = Dev_16 | 17 = Dev_17 | 18 = Dev_18 | 19 = Dev_19 | 20 = Dev_20 | 21 = Dev_21 | 22 = Dev_22 | 23 = Dev_23 | 24 = Dev_24 | 25 = Dev_25 ,99900 | 99901 | 99902,NA,NA,NA,NA,NA,uniform,NA,NA,NA,NA,NA,SOMATOMETRY,process,6,NA
+sbp1,SBP_0.1,integer,NA,NA,NA,[80;200],[0;265],1001,(90;180),normal,NA,NA,obs_bp     ,dev_bp      ,exdate      ,SOMATOMETRY,primary,7,NA
+sbp2,SBP_0.2,integer,NA,NA,NA,[80;200],[0;265],1002,(90;180),normal,NA,NA,obs_bp     ,dev_bp      ,exdate      ,SOMATOMETRY,primary,8,NA
+dbp1,DBP_0.1,integer,NA,NA,NA,[40;160],[0;265],1001,(55;120),normal,NA,NA,obs_bp     ,dev_bp      ,exdate      ,SOMATOMETRY,primary,9,NA
+dbp2,DBP_0.2,integer,NA,NA,NA,[40;160],[0;265],1002,(55;120),normal,NA,NA,obs_bp     ,dev_bp      ,exdate      ,SOMATOMETRY,primary,10,NA
+obs_soma,OBS_SOMA_0,integer,1 = Obs_01 | 2 = Obs_02 | 3 = Obs_03 | 4 = Obs_04 | 5 = Obs_05 | 6 = Obs_06 | 7 = Obs_07 | 8 = Obs_08 | 9 = Obs_09 | 10 = Obs_10 ,99900,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,SOMATOMETRY,process,11,NA
+height,BODY_HEIGHT_0,integer,NA,99900 | 99901,NA,[80;230],NA,1003 | 1004,NA,NA,1,1,obs_soma    ,NA,exdate      ,SOMATOMETRY,primary,12,NA
+dev_length,DEV_HEIGHT_0,integer,1 = Dev_01 | 2 = Dev_02 | 3 = Dev_03 | 4 = Dev_04 | 5 = Dev_05 | 6 = Dev_06 | 7 = Dev_07 | 8 = Dev_08 | 9 = Dev_09 | 10 = Dev_10 | 11 = Dev_11 | 12 = Dev_12 | 13 = Dev_13 | 14 = Dev_14 | 15 = Dev_15 | 16 = Dev_16 | 17 = Dev_17 | 18 = Dev_18 | 19 = Dev_19 | 20 = Dev_20 | 21 = Dev_21 | 22 = Dev_22 | 23 = Dev_23 | 24 = Dev_24 | 25 = Dev_25 ,99900 | 99901 | 99902,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,SOMATOMETRY,process,13,NA
+weight,BODY_WEIGHT_0,float,NA,99900 | 99901,NA,[30;250],NA,1003,NA,NA,2,1,obs_soma    ,NA,exdate      ,SOMATOMETRY,primary,14,NA
+dev_weight,DEV_WEIGHT_0,integer,1 = Dev_01 | 2 = Dev_02 | 3 = Dev_03 | 4 = Dev_04 | 5 = Dev_05 | 6 = Dev_06 | 7 = Dev_07 | 8 = Dev_08 | 9 = Dev_09 | 10 = Dev_10 | 11 = Dev_11 | 12 = Dev_12 | 13 = Dev_13 | 14 = Dev_14 | 15 = Dev_15 | 16 = Dev_16 | 17 = Dev_17 | 18 = Dev_18 | 19 = Dev_19 | 20 = Dev_20 | 21 = Dev_21 | 22 = Dev_22 | 23 = Dev_23 | 24 = Dev_24 | 25 = Dev_25 ,99900 | 99901 | 99902,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,SOMATOMETRY,process,15,NA
+waist,WAIST_CIRC_0,float,NA,99900 | 99901,NA,[30;Inf),NA,1004,NA,NA,NA,NA,obs_soma    ,NA,exdate      ,SOMATOMETRY,primary,16,NA
+obs_int,OBS_INT_0,integer,1 = Obs_01 | 2 = Obs_02 | 3 = Obs_03 | 4 = Obs_04 | 5 = Obs_05 | 6 = Obs_06 | 7 = Obs_07 | 8 = Obs_08 | 9 = Obs_09 | 10 = Obs_10 | 11 = Obs_11 | 12 = Obs_12 | 13 = Obs_13 | 14 = Obs_14 | 15 = Obs_15 | 16 = Obs_16 | 17 = Obs_17 | 18 = Obs_18 | 19 = Obs_19 | 20 = Obs_20  | 21 = Obs_21 | 22 = Obs_22 | 23 = Obs_23 | 24 = Obs_24 | 25 = Obs_25,99900 | 99901,NA,NA,NA,NA,NA,NA,NA,NA,obs_int    ,NA,NA,INTERVIEW,process,17,NA
+school,SCHOOL_GRAD_0,integer,0 = none | 1 = lower secondary | 2 = secondary | 3 = upper secondary,99900 | 99901 | 99914 ,NA,NA,NA,NA,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,18,NA
+family,RELATION_STATUS_0,integer,1 = married | 2 = married (living apart) | 3 = single (never married) | 4 = divorced | 5 = widowed,99900 | 99901 | 99914 ,NA,NA,NA,NA,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,19,NA
+smoking,SMOKING_STATUS_0,integer,0 = nonsmoker | 1 = former smoker | 2 = smoker,99900 | 99901 | 99914 ,NA,NA,NA,NA,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,20,NA
+stroke,STROKE_YN_0,integer,1 = yes | 2 = no,99900 | 99901 | 99914 ,NA,NA,NA,NA,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,21,NA
+myocard,MYOCARD_YN_0,integer,1 = yes | 2 = no,99900 | 99901 | 99914 ,NA,NA,NA,NA,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,22,NA
+diab_known,DIABETES_KNOWN_0,integer,0 = no | 1 = yes,99900 | 99901,NA,NA,NA,1006,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,23,NA
+diab_age,DIAB_AGE_ONSET_0,integer,NA,99900 | 99901,99801,NA,NA,1006,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,24,NA
+contraception,CONTRACEPTIVA_EVER_0,integer,1 = yes | 2 = no,99900 | 99901,99801,NA,NA,1005,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,25,NA
+income,HOUSE_INCOME_MONTH_0,integer,1 = < 2000 | 2 = 2000 ï¿½ 4000 | 3 = > 4000,99900 | 99901,NA,NA,NA,NA,NA,NA,NA,NA,obs_int    ,NA,exdate      ,INTERVIEW,primary,26,NA
+hdl,CHOLES_HDL_0,float,NA,99900 | 99901,NA,[0;Inf),NA,NA,NA,gamma,3,NA,NA,NA,exdate      ,LABORATORY,primary,27,NA
+ldl,CHOLES_LDL_0,float,NA,99900 | 99901,NA,[0;Inf),NA,NA,NA,gamma,3,NA,NA,NA,exdate      ,LABORATORY,primary,28,NA
+cholesterol,CHOLES_ALL_0,float,NA,99900 | 99901,NA,[0;Inf),NA,NA,NA,gamma,3,NA,NA,NA,exdate      ,LABORATORY,primary,29,NA

@@ -1,0 +1,7 @@
+ID#Function_name#A#A_levels#A_value#B#B_levels#B_value#Label
+1001#A_less_than_B_vv#SBP_0.1#NA#NA#DBP_0.1#NA#NA#SBP less DBP
+1002#A_less_than_B_vv#SBP_0.2#NA#NA#DBP_0.2#NA#NA#SBP less DBP
+1003#A_less_than_B_vv#BODY_HEIGHT_0#NA#NA#BODY_WEIGHT_0#NA#NA#Height less Weight
+1004#A_less_than_B_vv#BODY_HEIGHT_0#NA#NA#WAIST_CIRC_0#NA#NA#Height less Waist
+1005#A_levels_and_B_levels_ll#SEX_0#males#NA#CONTRACEPTIVA_EVER_0#yes#NA#Contracept in males
+1006#A_present_and_B_levels_vl#DIAB_AGE_ONSET_0#NA#NA#DIABETES_KNOWN_0#no#NA#Diab age but no diab

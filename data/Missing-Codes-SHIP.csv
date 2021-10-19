@@ -1,0 +1,18 @@
+CODE_CLASS;CODE_VALUE;CODE_LABEL
+JUMP;99800;JUMP - other reason
+JUMP;99801;JUMP - not applicable
+JUMP;99802;JUMP - design change
+MISSING;99900;Missing - other reason
+MISSING;99901;Missing - refusal
+MISSING;99902;Missing - not assessable 
+MISSING;99903;Missing - technical problem
+MISSING;99904;Missing - not available (material)
+MISSING;99905;Missing - not usable (material)
+MISSING;99906;Missing - reason unknown
+MISSING;99907;Missing - optional value
+MISSING;99908;Deleted - other reason
+MISSING;99909;Deleted - contradiction
+MISSING;99910;Deleted - value outside limits
+MISSING;99912;Value above detection limit
+MISSING;99913;Value below detection limit
+MISSING;99914;Data management ongoing
