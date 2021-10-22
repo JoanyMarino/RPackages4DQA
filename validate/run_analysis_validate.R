@@ -1,18 +1,22 @@
 # validate SHIP report
 # https://cran.r-project.org/web/packages/validate/vignettes/cookbook.html
 
+# complemented by errorlocate package
+# https://github.com/data-cleaning/errorlocate
+
 if (!require(validate)) install.packages("validate")
 if (!require(tidyr)) install.packages("tidyr")
 if (!require(drat)) install.packages("drat")
-# For report
-drat::addRepo("markvanderloo")
-install.packages("validatereport", type="source")
+
+# For report (not running)
+# drat::addRepo("markvanderloo")
+# install.packages("validatereport", type="source")
 
 # Load packages ----
 library(validate)
 library(tidyr)
-library(drat)
-library(validatereport)
+# library(drat)
+# library(validatereport)
 
 # Load data ----
 
