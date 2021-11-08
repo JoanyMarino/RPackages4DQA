@@ -29,3 +29,11 @@ library(shiny)
 
 # Run app locally 
 runUrl("https://github.com/ekstroem/dataMaid/raw/master/app/app.zip")
+
+# Using dataReporter interactively ----
+summarize(sd1)
+check(sd1$sbp1)
+check(sd1$obs_bp)
+
+# Not working
+identifyMissing(sd1$obs_bp)
