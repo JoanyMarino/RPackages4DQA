@@ -21,6 +21,11 @@ sd1_metric <- sd1_subset[, c("id","age", "sbp1", "sbp2",
                              "waist", "diab_age", "hdl", "ldl",
                              "cholesterol")]
 
+# Report stops after "waist" because  
+# argument is not numeric or logical: returning NA
+sd1_metric_subset <- sd1_subset[, c("diab_age", "hdl", "ldl",
+                             "cholesterol")]
+
 # subset categorical variables
 sd1_categorical <- sd1_subset[, c("obs_bp","dev_bp", "obs_soma", "dev_length",
                                   "dev_weight", "obs_int", "school", "family", 
@@ -31,11 +36,12 @@ sd1_categorical <- sd1_subset[, c("obs_bp","dev_bp", "obs_soma", "dev_length",
 outputFolder = "C:/Users/marinoj/Desktop/DQToolsReview/MOQA/"
 
 # set threshold to detect missings, default is 99900 
-mosaic.setGlobalMissingTreshold(99900)
+mosaic.setGlobalMissingTreshold(99800)
 
 # Run report ----
 # For metric variables
 mosaic.createSimplePdfMetricDataframe(sd1_metric, outputFolder)
+mosaic.createSimplePdfMetricDataframe(sd1_metric_subset, outputFolder)
 
 # For categorical variables
 mosaic.createSimplePdfCategoricalDataframe(sd1_categorical, outputFolder)
