@@ -6,11 +6,8 @@
 # https://cran.r-project.org/web/packages/validate/vignettes/cookbook.html
 
 if (!require(errorlocate)) install.packages("errorlocate")
-
-# Load packages ----
-library(errorlocate)
-library(validate)
-library(dplyr)
+if (!require(validate)) install.packages("validate")
+if (!require(dplyr)) install.packages("dplyr")
 
 # Load data ----
 
