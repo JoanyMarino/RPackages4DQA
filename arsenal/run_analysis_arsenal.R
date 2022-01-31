@@ -3,9 +3,6 @@
 
 if (!require(arsenal)) install.packages("arsenal")
 
-# Load packages ----
-library(arsenal)
-
 # Load data ----
 
 # Study of Health in Pomerania

@@ -3,9 +3,6 @@
 
 if (!require(funModeling)) install.packages("funModeling")
 
-# Load packages ----
-library(funModeling)
-
 # Load data ----
 
 # Study of Health in Pomerania

@@ -4,9 +4,6 @@
 
 if (!require(MOQA)) install.packages("MOQA")
 
-# Load packages ----
-library(MOQA)
-
 # Load data ----
 
 # Study of Health in Pomerania
@@ -33,7 +30,7 @@ sd1_categorical <- sd1_subset[, c("obs_bp","dev_bp", "obs_soma", "dev_length",
                                   "contraception", "income")]
 
 # specify output folder
-outputFolder = "C:/Users/marinoj/Desktop/DQToolsReview/MOQA/"
+outputFolder = "C:/Users/marinoj/Desktop/dqtoolsreview/MOQA"
 
 # set threshold to detect missings, default is 99900 
 mosaic.setGlobalMissingTreshold(99800)

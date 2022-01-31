@@ -4,9 +4,6 @@
 
 if (!require(SmartEDA)) install.packages("SmartEDA")
 
-# Load packages ----
-library(SmartEDA)
-
 # Load data ----
 
 # Study of Health in Pomerania

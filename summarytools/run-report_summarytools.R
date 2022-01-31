@@ -1,10 +1,7 @@
-# dataReporter SHIP report
+# summarytools SHIP report
 # https://github.com/ekstroem/dataReporter
 
 if (!require(summarytools)) install.packages("summarytools")
-
-# Load packages ----
-library(summarytools)
 
 # Load data ----
 

@@ -3,9 +3,6 @@
 
 if (!require(assertive)) install.packages("assertive")
 
-# Load packages ----
-library(assertive)
-
 # Load data ----
 
 # Study of Health in Pomerania
@@ -47,3 +44,5 @@ are_same_length(sd1$id, sd1$obs_bp)
 
 # Logical contradiction ----
 is_in_past(sd1$exdate)
+
+has_elements(sd1)

@@ -3,9 +3,6 @@
 
 if (!require(brinton)) install.packages("brinton")
 
-# Load packages ----
-library(brinton)
-
 # Load data ----
 
 # Study of Health in Pomerania

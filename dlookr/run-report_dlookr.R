@@ -2,10 +2,7 @@
 # https://github.com/choonghyunryu/dlookr
 
 if (!require(dlookr)) install.packages("dlookr")
-
-# Load packages ----
-library(dlookr)
-library(dplyr)
+if (!require(dplyr)) install.packages("dplyr")
 
 # Load data ----
 
@@ -19,7 +16,7 @@ sd1_overview <- overview(sd1)
 summary(sd1_overview)
 plot(sd1_overview)
 
-# Need to be run again because missing codes are included in the data
+# Needs to be run again because missing codes are included in the data
 diagnose(sd1)
 diagnose_numeric(sd1)
 diagnose_category(sd1)

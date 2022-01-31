@@ -4,9 +4,6 @@
 
 if (!require(ExPanDaR)) install.packages("ExPanDaR")
 
-# Load packages ----
-library(ExPanDaR)
-
 # Load data ----
 
 # Study of Health in Pomerania
@@ -20,3 +17,5 @@ ExPanD(df = sd1,
        df_name = "SHIP",
        export_nb_option = TRUE)
 
+# Shiny app ----
+ExPanD()

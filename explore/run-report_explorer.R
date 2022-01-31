@@ -5,10 +5,6 @@
 if (!require(explore)) install.packages("explore")
 if (!require(magrittr)) install.packages("magrittr")
 
-# Load packages ----
-library(explore)
-library(magrittr)  # to use the pipe operator %>%
-
 # Load data ----
 
 # Study of Health in Pomerania
@@ -40,3 +36,6 @@ describe(sd1)
 # describe variables
 sd1 %>% describe(age)
 sd1 %>% describe(sbp1)
+
+# Example from Vignette ---- 
+explore_cor(iris, x = Sepal.Length, y = Sepal.Width)

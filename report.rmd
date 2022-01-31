@@ -1,0 +1,675 @@
+---
+title: SHIP Report
+params:
+  consoleWidth: 80
+output:
+  html_document:
+    df_print: paged
+    theme: journal
+    toc: yes
+    toc_depth: 4
+    toc_float: no
+  pdf_document:
+    toc: yes
+    toc_depth: 4
+  word_document:
+    toc: yes
+    toc_depth: 4
+
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=5,
+                      fig.path="Figs/",fig.fullwidth=TRUE,
+                      warning=FALSE, message=FALSE, comment = "")
+options(width = params$consoleWidth)
+```
+
+### INTRODUCTION 
+This project is a bare bone exploration of the data ship_study.csv. Make the changes as required.
+
+```{r libraries_load}
+# Loading the libraries
+library(analyzer)
+library(dplyr)
+library(corrplot)
+library(ggplot2)
+library(MASS)
+```
+
+***
+
+### DATA 
+First, let's load the data and take a look at its dimension and first few rows.
+
+```{r data_load}
+tb <- read.csv('data/ship_study.csv')
+
+# Defining factor variables 
+factor_vars <- c('sex', 'obs_bp', 'obs_soma', 'obs_int', 'school', 'family', 'smoking', 'myocard', 'stroke', 'diab_known', 'contraception', 'income')
+
+# Converting categorical variables into factors
+for (i in factor_vars) {
+  tb[,i] <- as.factor(tb[,i])
+}
+```
+
+The dimension of data is
+```{r data_dim, echo=F}
+cat(paste0('Columns: ', prettyNum(ncol(tb), big.mark = ','), '
+Rows: ', prettyNum(nrow(tb), big.mark = ','), '
+Unique Rows: ', prettyNum(nrow(unique(tb)), big.mark = ',')))
+```
+
+```{r data_head}
+head(tb)
+```
+
+***
+
+
+#### MISSING VALUES 
+By plotting the proportion of missing values we can see see which variables has the maximum
+counts of missing values. From the plot we can see that column 'mpg' has the highest number
+of missing values. Rest columns doesn't have any missing values.
+
+```{r NA_plots}
+# Plotting the missing values
+analyzer::plotNA(tb, row.level = TRUE)
+```
+
+In the right plot we can see how missing values (shown in red color) are spread across all the
+columns and all the rows.
+
+***
+
+
+####  VARIABLE EXPLORATION 
+In this section all the individual variables are being explored. **No**
+variable is selected as the response (or dependent) variable. While
+the remaining variables are selected as the explanatory (or independent) variables.
+
+First, let's create and save all the plots:
+```{r save_plots_vars}
+variable_plots <- plottr(tb, yvar = NULL,
+                         yclass = NULL)
+```
+
+##### **Variable: id**
+```{r variable_id, message = TRUE}
+explainer(tb$id)
+```
+
+```{r plot_id}
+plot(variable_plots$id)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = id)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$id, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: exdate**
+```{r variable_exdate, message = TRUE}
+explainer(tb$exdate)
+```
+
+```{r plot_exdate}
+plot(variable_plots$exdate)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = exdate)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$exdate, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: age**
+```{r variable_age, message = TRUE}
+explainer(tb$age)
+```
+
+```{r plot_age}
+plot(variable_plots$age)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = age)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$age, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: sex**
+```{r variable_sex, message = TRUE}
+explainer(tb$sex)
+```
+
+```{r plot_sex}
+plot(variable_plots$sex)
+```
+
+##### **Variable: obs_bp**
+```{r variable_obs_bp, message = TRUE}
+explainer(tb$obs_bp)
+```
+
+```{r plot_obs_bp}
+plot(variable_plots$obs_bp)
+```
+
+##### **Variable: obs_soma**
+```{r variable_obs_soma, message = TRUE}
+explainer(tb$obs_soma)
+```
+
+```{r plot_obs_soma}
+plot(variable_plots$obs_soma)
+```
+
+##### **Variable: obs_int**
+```{r variable_obs_int, message = TRUE}
+explainer(tb$obs_int)
+```
+
+```{r plot_obs_int}
+plot(variable_plots$obs_int)
+```
+
+##### **Variable: dev_bp**
+```{r variable_dev_bp, message = TRUE}
+explainer(tb$dev_bp)
+```
+
+```{r plot_dev_bp}
+plot(variable_plots$dev_bp)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = dev_bp)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$dev_bp, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: dev_length**
+```{r variable_dev_length, message = TRUE}
+explainer(tb$dev_length)
+```
+
+```{r plot_dev_length}
+plot(variable_plots$dev_length)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = dev_length)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$dev_length, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: dev_weight**
+```{r variable_dev_weight, message = TRUE}
+explainer(tb$dev_weight)
+```
+
+```{r plot_dev_weight}
+plot(variable_plots$dev_weight)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = dev_weight)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$dev_weight, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: sbp1**
+```{r variable_sbp1, message = TRUE}
+explainer(tb$sbp1)
+```
+
+```{r plot_sbp1}
+plot(variable_plots$sbp1)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = sbp1)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$sbp1, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: sbp2**
+```{r variable_sbp2, message = TRUE}
+explainer(tb$sbp2)
+```
+
+```{r plot_sbp2}
+plot(variable_plots$sbp2)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = sbp2)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$sbp2, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: dbp1**
+```{r variable_dbp1, message = TRUE}
+explainer(tb$dbp1)
+```
+
+```{r plot_dbp1}
+plot(variable_plots$dbp1)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = dbp1)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$dbp1, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: dbp2**
+```{r variable_dbp2, message = TRUE}
+explainer(tb$dbp2)
+```
+
+```{r plot_dbp2}
+plot(variable_plots$dbp2)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = dbp2)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$dbp2, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: height**
+```{r variable_height, message = TRUE}
+explainer(tb$height)
+```
+
+```{r plot_height}
+plot(variable_plots$height)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = height)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$height, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: weight**
+```{r variable_weight, message = TRUE}
+explainer(tb$weight)
+```
+
+```{r plot_weight}
+plot(variable_plots$weight)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = weight)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$weight, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: waist**
+```{r variable_waist, message = TRUE}
+explainer(tb$waist)
+```
+
+```{r plot_waist}
+plot(variable_plots$waist)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = waist)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$waist, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: cholesterol**
+```{r variable_cholesterol, message = TRUE}
+explainer(tb$cholesterol)
+```
+
+```{r plot_cholesterol}
+plot(variable_plots$cholesterol)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = cholesterol)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$cholesterol, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: hdl**
+```{r variable_hdl, message = TRUE}
+explainer(tb$hdl)
+```
+
+```{r plot_hdl}
+plot(variable_plots$hdl)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = hdl)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$hdl, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: ldl**
+```{r variable_ldl, message = TRUE}
+explainer(tb$ldl)
+```
+
+```{r plot_ldl}
+plot(variable_plots$ldl)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = ldl)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$ldl, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: school**
+```{r variable_school, message = TRUE}
+explainer(tb$school)
+```
+
+```{r plot_school}
+plot(variable_plots$school)
+```
+
+##### **Variable: family**
+```{r variable_family, message = TRUE}
+explainer(tb$family)
+```
+
+```{r plot_family}
+plot(variable_plots$family)
+```
+
+##### **Variable: smoking**
+```{r variable_smoking, message = TRUE}
+explainer(tb$smoking)
+```
+
+```{r plot_smoking}
+plot(variable_plots$smoking)
+```
+
+##### **Variable: myocard**
+```{r variable_myocard, message = TRUE}
+explainer(tb$myocard)
+```
+
+```{r plot_myocard}
+plot(variable_plots$myocard)
+```
+
+##### **Variable: stroke**
+```{r variable_stroke, message = TRUE}
+explainer(tb$stroke)
+```
+
+```{r plot_stroke}
+plot(variable_plots$stroke)
+```
+
+##### **Variable: diab_known**
+```{r variable_diab_known, message = TRUE}
+explainer(tb$diab_known)
+```
+
+```{r plot_diab_known}
+plot(variable_plots$diab_known)
+```
+
+##### **Variable: diab_age**
+```{r variable_diab_age, message = TRUE}
+explainer(tb$diab_age)
+```
+
+```{r plot_diab_age}
+plot(variable_plots$diab_age)
+```
+
+**Normality test**
+```{r}
+# QQ plot
+ggplot(tb, aes(sample = diab_age)) + stat_qq(color='red', alpha = 0.6) + stat_qq_line() + theme_minimal()
+
+# Normality assumption test
+nt <- norm_test_fun(tb$diab_age, method = 'ks')
+```
+
+The `r nt$method` has a p-value of **`r round(nt$p.value, 4)`**.
+Since `r ifelse(nt$p.value < 0.05, 'p-value is less than the significance level (0.05), we',
+'p-value is not below the significance level (0.05), we do not have sufficient evidence to')`
+reject the null hypothesis. Therefore, we can say that this variable **`r ifelse(nt$p.value < 0.05, 'does not follow', 'follows')`
+the normal distribution**.
+
+##### **Variable: contraception**
+```{r variable_contraception, message = TRUE}
+explainer(tb$contraception)
+```
+
+```{r plot_contraception}
+plot(variable_plots$contraception)
+```
+
+##### **Variable: income**
+```{r variable_income, message = TRUE}
+explainer(tb$income)
+```
+
+```{r plot_income}
+plot(variable_plots$income)
+```
+
+***
+
+
+
+#### CORRELATION & ASSOCIATION 
+In general there can be three types of association based on the data type of variables -
+1. Between 2 continuous (numeric) variables
+2. Between 2 categorical variables
+3. Between 1 continuous and 1 categorical variables
+
+In this section, each type will be analyzed separately. **association** function can be used to calculate these automatically.
+The normality test of the variables will be done using the **'Kolmogorov-Smirnov Test'**.
+
+```{r association}
+corr_all <- association(tb, categorical = c('sex', 'obs_bp', 'obs_soma', 'obs_int', 'school', 'family', 'smoking', 'myocard', 'stroke', 'diab_known', 'contraception', 'income'), normality_test_method = 'ks')
+```
+
+##### Between 2 continuous (numeric) variables
+
+For this case, the **association** function internally utilizes the **cor** function. Since there are some variables which may not follow the normality assumption, we will keep the method as 'auto'. This will assign the method automatically to all the variables pair based on normality tests.
+
+```{r CC}
+corrplot(corr_all$continuous_corr, p.mat = corr_all$continuous_pvalue, sig.level = .2)
+```
+The above correlations are either Pearson or Spearman, decided by the function based on the normality tests. A value close to 0 means no linear correlation between the variables. As values increases towards +1, the linear positive correlation increases (one variable increases as other increases). Similarly, as value decreases towards -1, the linear negative correlation increases (as one variable increases, other decreases). The insignificant correlation (based on p-value) are crossed out  at the desired level of significance (0.2).
+
+
+
+##### Between 2 categorical variables
+
+Association can be measured between categorical variables using the chi-square test of independence on two-way contingency tables. A small p-value indicates that association is present between the variables. Using the Chi-Square test statistic a measure of association can be calculated which is known as Cramer's V. This normalized measure varies from a minimum value of 0 when x and y are statistically independent to a maximum value of 1 when one variable is perfectly predictable from the other. Like correlation we can measure the magnitude of association using Cramer's V.
+
+The Cramer's V can be calculated using the Chi-Square test statistic using:
+
+$$V = \sqrt{\frac{\chi ^2}{n*min(k-1,r-1))}}$$
+
+Where:
+**$\chi ^{2}$** is derived from Pearson's chi-squared test
+**$n$** is the grand total of observations
+**$k$** is the number of columns
+**$r$** is the number of rows.
+
+```{r QQ}
+corrplot(corr_all$categorical_cramers, p.mat = corr_all$categorical_pvalue, sig.level = .2)
+```
+
+One thing to note is that Cramer's V doesn't give direction of association using negative and positive values like Pearson / Spearman correlation. But this only give magnitude of association. The insignificant association (based on p-value) are crossed out  at the desired level of significance (0.2).
+
+##### Between 1 continuous and 1 categorical variables
+
+Association between 1 continuous and 1 categorical variable can be measured using the t-test (for normally distributed data) or Mann-Whitney (for data with distribution other than normal). A p-value smaller than the significant level indicates that both the variables are predictable by each other. Unlike previous two cases, these test doesn't give a magnitude of association between 0-1, but only a p-value showing the significance.
+
+```{r CQ}
+amat <- pmat <- corr_all$continuous_categorical
+amat[amat > 0] <- 0
+corrplot(amat, p.mat = pmat, sig.level = 0.2)
+```
+
+The insignificant association (based on p-value) are crossed out at the desired level of significance (0.2).
+
+***
+

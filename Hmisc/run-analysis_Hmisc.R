@@ -5,9 +5,6 @@
 
 if (!require(Hmisc)) install.packages("Hmisc")
 
-# Load packages ----
-library(Hmisc)
-
 # Load data ----
 
 # Study of Health in Pomerania

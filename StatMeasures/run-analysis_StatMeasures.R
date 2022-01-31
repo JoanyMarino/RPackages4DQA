@@ -2,9 +2,6 @@
 
 if (!require(StatMeasures)) install.packages("StatMeasures")
 
-# Load packages ----
-library(StatMeasures)
-
 # Load data ----
 
 # Study of Health in Pomerania

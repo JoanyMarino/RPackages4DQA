@@ -4,9 +4,6 @@
 
 if (!require(VIM)) install.packages("VIM")
 
-# load packages ----
-library(VIM)
-
 # Load data ----
 
 # Study of Health in Pomerania

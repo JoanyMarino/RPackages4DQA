@@ -12,10 +12,6 @@ if (!require(drat)) install.packages("drat")
 # drat::addRepo("markvanderloo")
 # install.packages("validatereport", type="source")
 
-# Load packages ----
-library(validate)
-library(tidyr)
-# library(drat)
 # library(validatereport)
 
 # Load data ----

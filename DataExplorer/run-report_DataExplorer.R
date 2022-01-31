@@ -2,10 +2,7 @@
 # https://boxuancui.github.io/DataExplorer/
 
 if (!require(DataExplorer)) install.packages("DataExplorer")
-
-# Load packages ----
-library(DataExplorer)
-library(tidyverse) 
+if (!require(tidyverse)) install.packages("tidyverse")
 
 # Load data ----
 

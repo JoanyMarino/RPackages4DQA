@@ -2,11 +2,7 @@
 # https://alastairrushworth.github.io/inspectdf/
 
 if (!require(inspectdf)) install.packages("inspectdf")
-
-# Load packages ----
-library(inspectdf)
-
-# Load data ----
+if (!require(magrittr)) install.packages("magrittr")
 
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
@@ -51,7 +47,3 @@ inspect_imb(sd1) %>% show_plot()
 # Memory usage ----
 inspect_mem(sd1)
 inspect_mem(sd1) %>% show_plot()
-
-library(dplyr)
-data(starwars, package = "dplyr")
-head(starwars)

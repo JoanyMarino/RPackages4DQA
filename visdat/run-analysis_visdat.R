@@ -2,10 +2,7 @@
 # https://github.com/ropensci/visdat
 
 if (!require(visdat)) install.packages("visdat")
-
-# Load packages ----
-library(visdat)
-library(tidyverse)
+if (!require(tidyverse)) install.packages("tidyverse")
 
 # Load data ----
 

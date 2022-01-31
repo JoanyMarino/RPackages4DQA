@@ -2,10 +2,6 @@
 # https://rdrr.io/github/XanderHorn/autoEDA/f/README.md
 
 if (!require(devtools)) install.packages("devtools")
-
-# Load packages ----
-library(devtools)
-
 devtools::install_github("XanderHorn/autoEDA")
 
 library(autoEDA)

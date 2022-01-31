@@ -3,9 +3,6 @@
 
 if (!require(dataquieR)) install.packages("dataquieR")
 
-# load packages ----
-library(dataquieR)
-
 # Load data ----
 
 # Study of Health in Pomerania
