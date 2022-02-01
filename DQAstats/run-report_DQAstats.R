@@ -16,20 +16,20 @@ utils_path <- system.file("demo_data/utilities",
 
 # Execute the DQA and generate a PDF report:
 results <- DQAstats::dqa(
-  source_system_name = "DQAstats/demo_data/dqa_example_data_01",
+  source_system_name = "exampleCSV_source",
+  target_system_name = "exampleCSV_target",
   utils_path = utils_path,
-  mdr_filename = "DQAstats/demo_data/utilities/mdr_example_data.csv",
-  output_dir = getwd()
+  mdr_filename = "mdr_example_data.csv",
+  output_dir = "output/"
 )
 
 
 
-# Load data ----
+# NOT RUN ----
+# This section is not working 
 
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
-
-# Run report ----
 
 # Execute the DQA and generate a PDF report:
 results <- DQAstats::dqa(
