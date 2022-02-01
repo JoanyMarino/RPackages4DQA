@@ -1,0 +1,13 @@
+Variable,Check Distincts,Check Valids,Check Missings
+Age in years,passed,passed,passed
+Amount of credit,passed,passed,passed
+Birthdate,passed,passed,passed
+Credit worthy?,passed,passed,passed
+Current bank balance,passed,passed,passed
+Date of contact,passed,passed,passed
+Forename,passed,passed,passed
+Income,passed,passed,passed
+Job,passed,passed,passed
+Name,passed,passed,passed
+Person ID,passed,passed,passed
+Sex,failed,passed,passed
