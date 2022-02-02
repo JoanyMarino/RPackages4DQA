@@ -8,7 +8,7 @@ Each directory refers to an R package and uses [SHIP-based example data and meta
 
 ## Features
 
-Reviewed R packages:
+Reviewed R packages (in Bearbeitung):
 
 * dataquieR
 * dataReporter
@@ -17,3 +17,5 @@ Reviewed R packages:
 * summarytools
 * validate
 * VIM
+
+...
