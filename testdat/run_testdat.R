@@ -21,9 +21,9 @@ test_that("no missing values", {
   expect_prop_nmiss(family, 1)
 })
 
-test_that("no missing values using specified missing codes", {
-  expect_prop_nmiss(height, 1, miss=c(99900, 99901))
-  expect_prop_nmiss(family, 1, miss=c(99900, 99914))
+test_that("no missing values including specified missing codes", {
+  expect_prop_nmiss(height, 1, miss=c(99900, 99901, NA, ""))
+  expect_prop_nmiss(family, 1, miss=c(99900, 99914, NA, ""))
 })
 
 test_that("limited number of missing values", {
