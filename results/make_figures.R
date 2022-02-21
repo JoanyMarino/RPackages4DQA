@@ -1,4 +1,4 @@
-# Arrange data and plot results
+# Arrange data and plot number of packages by categories
 
 library(tidyverse)
 library(dplyr)
@@ -6,7 +6,6 @@ library(readxl)
 
 # Arrange data ----
 
-# Load results
 # TO DO: Move file to git repo
 dq_table <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_paper_table_v03.xlsx")
 
@@ -20,17 +19,23 @@ dq_domains_wide <- dq_table[c(14:24),]
 # Figure 2: Broad criteria ----
 
 # Convert to long format
-dq_broad <- dq_broad_wide %>% gather(Package, Feature, dataquieR:testdat)
+dq_long <- dq_broad_wide %>%  
+  pivot_longer(
+    cols = dataquieR:testdat,
+    names_to = c("Package"),
+    values_to = "Feature",
+    values_drop_na = FALSE) %>% 
+  mutate(Criteria = factor(Criteria),
+         Package = factor(Package), 
+         Feature = case_when(Feature == "yes" ~ "Incorporated", 
+                             # else, no
+                             TRUE ~ "Not incorporated")) 
+# Count
+dq_broad <- dq_long %>% 
+  group_by(Criteria, Feature) %>% 
+  tally() 
 
-# Set factor and order them
-dq_broad <- dq_broad %>%
-  mutate(Feature = case_when(Feature == "yes" ~ "Incorporated", 
-                          # else, no
-                          TRUE ~ "Not incorporated"))
-
-dq_broad$Feature <- factor(dq_broad$Feature, 
-                            levels = rev(c("Incorporated", "Not incorporated")))
-
+# Order factors for plotting
 dq_broad$Criteria <- factor(dq_broad$Criteria, 
                             levels = rev(c("Reference to data quality", 
                                            "Data quality concept", 
@@ -45,89 +50,94 @@ dq_broad$Criteria <- factor(dq_broad$Criteria,
                                            "Data summary/overview",
                                            "Descriptive statistics")))
 
-dq_broad <- dq_broad %>% arrange(Criteria, Feature)
+dq_broad$Feature <- factor(dq_broad$Feature, 
+                           levels = c("Incorporated", "Not incorporated"))
 
-fig2 <- ggplot(dq_broad,
-        aes(fill = factor(Feature), 
-            x = factor(Criteria))) + 
-        geom_bar(stat = "count", 
-                 position = "fill", 
-                 color = "white") + 
-        geom_text(aes(label = ..count..), 
-                  position = position_fill(vjust = 0.5),
-                  stat = "count", 
-                  colour = "white", 
-                  size = rel(5.5)) +
-        coord_flip() +
-        scale_fill_manual(values = c("Incorporated" = "#E59100", 
-                                     "Not incorporated" = "#005191")) +
-        labs(x="", y = "Number of packages") + 
-        theme_classic() +
-        theme(line = element_blank(), 
-              axis.text.x=element_blank(),
-              axis.text.y=element_text(size=rel(1.8)),
-              axis.title.x=element_text(size=rel(1.5)), 
-              legend.title = element_blank(),
-              legend.position="top", 
-              legend.justification='right',
-              legend.text = element_text(size=rel(1.3)))
-
-ggsave("figs/fig2.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
-
-
-# Figure 3: Data Quality criteria ----
-
-# Convert to long format
-dq_domains <- dq_domains_wide %>% gather(Package, Feature, dataquieR:testdat,
-                                         na.rm = FALSE)
-
-# Set factor and order them
-dq_domains <- dq_domains %>%
-  mutate(Feature = case_when(is.na(Feature) ~ "Incorporated", 
-                             # else, no
-                             TRUE ~ "Not incorporated"))
-
-dq_domains$Feature <- factor(dq_domains$Feature, 
-                           levels = rev(c("Incorporated", "Not incorporated")))
-
-dq_domains$Criteria <- factor(dq_domains$Criteria, 
-                            levels = rev(c("Integrity: Structural data set error", 
-                                           "Integrity: Data set combination error", 
-                                           "Integrity: Value format error",
-                                           "Completeness: Crude missingness",
-                                           "Completeness: Qualified missingness",
-                                           "Consistency: Range and value violations",
-                                           "Consistency: Contradictions",
-                                           "Accuracy: Unexpected distribution",
-                                           "Accuracy: Unexpected association",
-                                           "Accuracy: Disagreement of repeated measurements",
-                                           "Other: Uniques or distinct")))
-
-dq_domains <- dq_domains %>% arrange(Criteria, Feature)
-
-fig3 <- ggplot(dq_domains,
-               aes(fill = factor(Feature), 
-                   x = factor(Criteria))) + 
-  geom_bar(stat = "count", 
-           position = "fill", 
-           color = "white") + 
-  geom_text(aes(label = ..count..), 
-            position = position_fill(vjust = 0.5),
-            stat = "count", 
+fig2 <- ggplot(dq_broad, 
+               aes(fill = forcats::fct_rev(Feature), y = n, x = Criteria, label = n)) +
+  geom_bar(position = "fill", 
+           stat = "identity", 
+           color = "white") +
+  geom_text(position = position_fill(vjust = 0.5),
             colour = "white", 
             size = rel(5.5)) +
-  coord_flip() +
   scale_fill_manual(values = c("Incorporated" = "#E59100", 
                                "Not incorporated" = "#005191")) +
-  labs(x="", y = "Number of packages") + 
+  coord_flip() + 
+  labs(y = "No. of Domains")  +
   theme_classic() +
   theme(line = element_blank(), 
         axis.text.x=element_blank(),
         axis.text.y=element_text(size=rel(1.8)),
         axis.title.x=element_text(size=rel(1.5)), 
+        axis.title.y=element_blank(), 
         legend.title = element_blank(),
         legend.position="top", 
         legend.justification='right',
-        legend.text = element_text(size=rel(1.3)))
+        legend.text = element_text(size=rel(1.3))
+  )
 
-ggsave("figs/fig3.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
+# ggsave("figs/fig2.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
+
+
+# Figure 3: Data Quality criteria ----
+
+# Convert to long format
+dq_domains_long <- dq_domains_wide %>%  
+  pivot_longer(
+    cols = dataquieR:testdat,
+    names_to = c("Package"),
+    values_to = "Feature",
+    values_drop_na = FALSE) %>% 
+  mutate(Criteria = factor(Criteria),
+         Package = factor(Package), 
+         Feature = case_when(!is.na(Feature) ~ "Incorporated", 
+                             # else, no
+                             TRUE ~ "Not incorporated")) 
+
+dq_domains <- dq_domains_long %>% 
+  group_by(Criteria, Feature) %>% 
+  tally() 
+
+dq_domains$Criteria <- factor(dq_domains$Criteria, 
+                              levels = rev(c("Integrity: Structural data set error", 
+                                             "Integrity: Data set combination error", 
+                                             "Integrity: Value format error",
+                                             "Completeness: Crude missingness",
+                                             "Completeness: Qualified missingness",
+                                             "Consistency: Range and value violations",
+                                             "Consistency: Contradictions",
+                                             "Accuracy: Unexpected distribution",
+                                             "Accuracy: Unexpected association",
+                                             "Accuracy: Disagreement of rep. meas.",
+                                             "Other: Unique values")))
+
+dq_domains$Feature <- factor(dq_domains$Feature, 
+                             levels = c("Incorporated", "Not incorporated"))
+
+fig3 <- ggplot(dq_domains, 
+               aes(fill = forcats::fct_rev(Feature), y = n, x = Criteria, label = n)) +
+  geom_bar(position = "fill", 
+           stat = "identity", 
+           color = "white") +
+  geom_text(position = position_fill(vjust = 0.5),
+            colour = "white", 
+            size = rel(5.5)) +
+  scale_fill_manual(values = c("Incorporated" = "#E59100", 
+                               "Not incorporated" = "#005191")) +
+  coord_flip() + 
+  # scale_x_discrete(limits = rev(levels(dq_broad$Criteria))) +
+  labs(y = "No. of Domains")  +
+  theme_classic() +
+  theme(line = element_blank(), 
+        axis.text.x=element_blank(),
+        axis.text.y=element_text(size=rel(1.8)),
+        axis.title.x=element_text(size=rel(1.5)), 
+        axis.title.y=element_blank(), 
+        legend.title = element_blank(),
+        legend.position="top", 
+        legend.justification='right',
+        legend.text = element_text(size=rel(1.3))
+  )
+
+# ggsave("figs/fig3.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
