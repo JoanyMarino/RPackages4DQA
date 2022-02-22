@@ -12,6 +12,7 @@ sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
 # Integrity
 checkValidity(sd1)
+checkValidity(sd1, numeric=TRUE, cat = TRUE)
 checkVariableNames(sd1, c("age","sex", "id", "sbp1", "sbp2"))
 
 # Completeness
