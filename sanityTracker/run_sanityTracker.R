@@ -38,6 +38,11 @@ checklist <- sc_cols_bounded(object = sd1,
                              cols = c("sbp1", "sbp2"),
                              rule =  "[80, 200]",
                              description = "numeric ranges for blood pressure")
+
+#checklist <- sc_col_elements(object = sd1,
+#                             col = "exdate",
+#                             feasible_elements = c(as.Date("1995-01-01"):as.Date("2050-12-31")),
+#                             description = "date ranges")
 #get_sanity_checks()
 #clear_sanity_checks()
 
