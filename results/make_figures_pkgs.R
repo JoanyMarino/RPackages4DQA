@@ -6,6 +6,7 @@ library(ggpubr)
 
 # Arrange data ----
 
+# REPLACE PATH TO SPREADSHEET
 # TO DO: Move file to git repo
 pkgs <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_packages_domains.xlsx")
 

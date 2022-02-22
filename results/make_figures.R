@@ -6,22 +6,24 @@ library(readxl)
 
 # Arrange data ----
 
+# REPLACE PATH TO SPREADSHEET
 # TO DO: Move file to git repo
-dq_table <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_paper_table_v03.xlsx")
+dq_table <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_paper_table_v04.xlsx")
 
 # Remove last rows
-dq_table <- dq_table[-c(25, 26),]
+dq_table <- dq_table[-c(24, 25),]
 
 # Split tables
 dq_broad_wide <- dq_table[c(1:12),]
-dq_domains_wide <- dq_table[c(14:24),]
+dq_domains_wide <- dq_table[c(13:23),]
 
 # Figure 2: Broad criteria ----
 
 # Convert to long format
 dq_long <- dq_broad_wide %>%  
   pivot_longer(
-    cols = dataquieR:testdat,
+    # CHANGE cols TO MATCH ORDER IN SPREADSHEET
+    cols = analyzer:xray,
     names_to = c("Package"),
     values_to = "Feature",
     values_drop_na = FALSE) %>% 
@@ -85,7 +87,8 @@ fig2 <- ggplot(dq_broad,
 # Convert to long format
 dq_domains_long <- dq_domains_wide %>%  
   pivot_longer(
-    cols = dataquieR:testdat,
+    # CHANGE cols TO MATCH ORDER IN SPREADSHEET
+    cols = analyzer:xray,
     names_to = c("Package"),
     values_to = "Feature",
     values_drop_na = FALSE) %>% 
