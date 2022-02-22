@@ -49,6 +49,11 @@ levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Consistency"] <- "Co
 levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Integrity"] <- "Int"
 levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Other"] <- "Oth"
 
+# levels(pkgs_long$Package)[levels(pkgs_long$Package) == "dataReporter1"] <- "Int"
+# levels(pkgs_long$Package)[levels(pkgs_long$Package) == "MOQA2"] <- "Int"
+# levels(pkgs_long$Package)[levels(pkgs_long$Package) == "validate3"] <- expression(validate^3)
+
+
 # Color palette
 pal1 <- c("#083666", "#005191", "#9EB7E5", "#00B691", "#0C6F5A", "#F2CF63", "#E59100", "#F0433A", "#C9283E", "#820333", "#2E112D")
 
@@ -116,6 +121,7 @@ fig5 <- ggplot(pkgs_domains,
           legend.text = element_text(size=rel(1.4))
           ) 
 fig5
+
 # Another option with facets
 # fig5a <- ggplot(pkgs_domains, aes(x = Dimension, y = n))+
 #   geom_bar(
@@ -134,5 +140,5 @@ fig5
 # fig5a
 
 # Export ----
-ggsave("figs/fig4_v2.pdf", fig4, width = 14, height = 8.5, units = "in", dpi = 400)
-ggsave("figs/fig5_v2.pdf", fig5, width = 14, height = 8.5, units = "in", dpi = 400)
+# ggsave("figs/fig4_v2.pdf", fig4, width = 14, height = 8.5, units = "in", dpi = 400)
+# ggsave("figs/fig5_v2.pdf", fig5, width = 14, height = 8.5, units = "in", dpi = 400)
