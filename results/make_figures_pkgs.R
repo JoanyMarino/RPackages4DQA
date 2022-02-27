@@ -8,7 +8,7 @@ library(ggpubr)
 
 # REPLACE PATH TO SPREADSHEET
 # TO DO: Move file to git repo
-pkgs <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_packages_domains.xlsx")
+pkgs <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_packages_dimensions.xlsx")
 
 pkgs_long <- pkgs %>%  
   mutate(across(xplorerr, as.character)) %>% 
@@ -27,8 +27,7 @@ pkgs_long <- pkgs %>%
                               "Integrity", 
                               "Completeness", 
                               "Consistency", 
-                              "Accuracy",
-                              "Other")) %>%
+                              "Accuracy")) %>%
   # Reorder domain levels for plot 
   mutate(Domain = fct_relevel(Domain, 
                               "Structural data set error", 
@@ -41,14 +40,13 @@ pkgs_long <- pkgs %>%
                               "Unexpected distribution",
                               "Unexpected association",
                               "Disagreement of rep. meas.", 
-                              "Unique values")) 
+                              "Loners")) 
 
 # Rename levels for plotting
 levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Accuracy"] <- "Acc"
 levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Completeness"] <- "Com"
 levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Consistency"] <- "Con"
 levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Integrity"] <- "Int"
-levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Other"] <- "Oth"
 
 # levels(pkgs_long$Package)[levels(pkgs_long$Package) == "dataReporter1"] <- "Int"
 # levels(pkgs_long$Package)[levels(pkgs_long$Package) == "MOQA2"] <- "Int"
@@ -58,9 +56,9 @@ levels(pkgs_long$Dimension)[levels(pkgs_long$Dimension) == "Other"] <- "Oth"
 # Color palette
 pal1 <- c("#083666", "#005191", "#9EB7E5", "#00B691", "#0C6F5A", "#F2CF63", "#E59100", "#F0433A", "#C9283E", "#820333", "#2E112D")
 
-# Figure 4: Indicators by package ----
+# Figure 5: Indicators by package ----
 
-fig4 <- ggplot(pkgs_long, aes(x = Dimension, y = Count))+
+fig5 <- ggplot(pkgs_long, aes(x = Dimension, y = Count))+
   geom_bar(
     aes(fill = Domain), stat = "identity", color = "white",
     # Keep all bars of equal width
@@ -85,14 +83,13 @@ levels(pkgs_domains$Dimension)[levels(pkgs_domains$Dimension) == "Acc"] <- "Accu
 levels(pkgs_domains$Dimension)[levels(pkgs_domains$Dimension) == "Com"] <- "Completeness"
 levels(pkgs_domains$Dimension)[levels(pkgs_domains$Dimension) == "Con"] <- "Consistency"
 levels(pkgs_domains$Dimension)[levels(pkgs_domains$Dimension) == "Int"] <- "Integrity"
-levels(pkgs_domains$Dimension)[levels(pkgs_domains$Dimension) == "Oth"] <- "Other"
 
 # Color palette
-pal2 <- c("#005191", "#00B691", "#E59100", "#C9283E", "#2E112D")
+pal2 <- c("#005191", "#00B691", "#E59100", "#C9283E")
 
-# Figure 5: Domains by package ----
+# Figure 4: Domains by package ----
 
-fig5 <- ggplot(pkgs_domains, 
+fig4 <- ggplot(pkgs_domains, 
                 aes(x = Package, y = n, label = n, 
                     fill = forcats::fct_rev(Dimension))) +
           geom_bar(stat = "identity", 
@@ -121,7 +118,7 @@ fig5 <- ggplot(pkgs_domains,
           legend.title = element_text(size=rel(1.5)),
           legend.text = element_text(size=rel(1.4))
           ) 
-fig5
+fig4
 
 # Another option with facets
 # fig5a <- ggplot(pkgs_domains, aes(x = Dimension, y = n))+
@@ -141,5 +138,5 @@ fig5
 # fig5a
 
 # Export ----
-# ggsave("figs/fig4_v2.pdf", fig4, width = 14, height = 8.5, units = "in", dpi = 400)
-# ggsave("figs/fig5_v2.pdf", fig5, width = 14, height = 8.5, units = "in", dpi = 400)
+ggsave("figs/fig4_v4.pdf", fig4, width = 14, height = 8.5, units = "in", dpi = 400)
+ggsave("figs/fig5_v4.pdf", fig5, width = 14, height = 8.5, units = "in", dpi = 400)

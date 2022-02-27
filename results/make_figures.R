@@ -8,14 +8,15 @@ library(readxl)
 
 # REPLACE PATH TO SPREADSHEET
 # TO DO: Move file to git repo
-dq_table <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_paper_table_v04.xlsx")
+dq_table <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_paper_table_v06.xlsx")
 
 # Remove last rows
-dq_table <- dq_table[-c(24, 25),]
+# dq_table <- dq_table[-c(24, 25),]
+
 
 # Split tables
-dq_broad_wide <- dq_table[c(1:12),]
-dq_domains_wide <- dq_table[c(13:23),]
+dq_broad_wide <- dq_table[c(1:11),]
+dq_domains_wide <- dq_table[c(12:22),]
 
 # Figure 2: Broad criteria ----
 
@@ -40,14 +41,14 @@ dq_broad <- dq_long %>%
 # Order factors for plotting
 dq_broad$Criteria <- factor(dq_broad$Criteria, 
                             levels = rev(c("Reference to data quality", 
-                                           "Data quality concept", 
+                                           "Reference to data quality concept", 
                                            "Control via GUI",
                                            "Control via programming",
                                            "Requires programming",
+                                           "Report generation from single function",
                                            "Input of metadata through functions",
                                            "Input of metadata through separate file",
                                            "Management of metadata",
-                                           "Report generation from single function",
                                            "Grading of data quality issues",
                                            "Data summary/overview",
                                            "Descriptive statistics")))
@@ -78,9 +79,6 @@ fig2 <- ggplot(dq_broad,
         legend.justification='right',
         legend.text = element_text(size=rel(1.3))
   )
-
-# ggsave("figs/fig2.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
-
 
 # Figure 3: Data Quality criteria ----
 
@@ -113,7 +111,7 @@ dq_domains$Criteria <- factor(dq_domains$Criteria,
                                              "Accuracy: Unexpected distribution",
                                              "Accuracy: Unexpected association",
                                              "Accuracy: Disagreement of rep. meas.",
-                                             "Other: Unique values")))
+                                             "Accuracy: Loners")))
 
 dq_domains$Feature <- factor(dq_domains$Feature, 
                              levels = c("Incorporated", "Not incorporated"))
@@ -143,4 +141,5 @@ fig3 <- ggplot(dq_domains,
         legend.text = element_text(size=rel(1.3))
   )
 
-# ggsave("figs/fig3.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
+ggsave("figs/fig2_v4.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
+ggsave("figs/fig3_v4.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)

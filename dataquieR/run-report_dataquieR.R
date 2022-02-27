@@ -10,8 +10,8 @@ sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
 summary(sd1)
 
-# Load metadata ----
-md1 <- readRDS(system.file("extdata", "ship_meta.RDS", package = "dataquieR"))
+# Load metadata ---- !
+md1 <- read_csv(system.file("extdata", "ship_meta.csv"))
 
 # Run report ----
 ship_report <- dq_report(study_data = sd1,
@@ -38,3 +38,8 @@ ship_report
 
 save(ship_report, file = "SHIP_report_dataquieR.RData") 
 # careful, this contains the study_data
+
+mo1 <- acc_multivariate_outlier(resp_vars  = c("sbp1", "dbp1", "age"), 
+                                label_col  = "VAR_NAMES",
+                                study_data = sd1, 
+                                meta_data  = md1)

@@ -24,3 +24,10 @@ PlotCorr(m, border="grey",
          args.colorlegend=list(labels=Format(seq(1,-1,-.25), 2), frame="grey"))
   
 PlotWeb(m, col=c(hred, hblue))
+
+# Duplicates
+x <- c(1:10, 4:6)
+AllDuplicated(x)
+# compare to:
+duplicated(x)
+x[!AllDuplicated(x)]

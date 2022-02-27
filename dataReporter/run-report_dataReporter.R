@@ -35,5 +35,20 @@ summarize(sd1)
 check(sd1$sbp1)
 check(sd1$obs_bp)
 
+# Identify missclassified numerical variables
+identifyNums(c(as.character(-9:9)))
+
+# Value format
+identifyCaseIssues(c("val", "b", "1", "1", "vAl", "VAL", "oh", "OH"))
+
+# Identify missings
+v1 <- c(1:15, 99)
+v2 <- c(v1, 98)
+v3 <- c(-999, v2, 9999)
+identifyMissing(v1)
+identifyMissing(v2)
+identifyMissing(v3)
+identifyMissing(factor(v3))
+
 # Not working
-identifyMissing(sd1$obs_bp)
+# identifyMissing(sd1$obs_bp)
