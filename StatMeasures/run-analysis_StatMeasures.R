@@ -28,3 +28,8 @@ dqcontinuous(sd1)
 
 # Check date variables ----
 dqdate(sd1)
+
+# Remove duplicate observations by key from data
+ltDf <- rmdupkey(data = df, by = c('x'))
+unqDf <- ltDf$unqData
+dupDf <- ltDf$dupData

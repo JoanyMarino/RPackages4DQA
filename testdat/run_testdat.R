@@ -57,6 +57,47 @@ test_that("conditional restrictions", {
 })
 # code below might be not set up correctly
 test_that("jumps", {
-  expect_base(contraception, sex == 2, miss=c(99900, 99901))
-  expect_base(diab_age, diab_known == 0, miss=c(99900, 99901))
+  # expect_base(contraception, sex == 2, miss=c(99900, 99901))
+  expect_base(diab_age, diab_known == 1, miss=c(99900, 99801))
 })
+sum(sd1$diab_known == 1 & sd1$diab_age %in% c(99801, 99900))
+
+df1 <- data.frame(
+  id = 0:99,
+  binomial = sample(0:1, 100, TRUE),
+  even = abs(0:99%%2 - 1) * 0:99
+)
+df2 <- data.frame(
+  id = 0:99,
+  binomial = sample(0:1, 100, TRUE),
+  odd = 0:99%%2 *0:99
+)
+# Check that same records 'succeeded' across data frames
+try(expect_valmatch(df2, binomial, by = "id", data = df1))
+# Check that all records in `df1`, as picked out by `id`, exist in `df2`
+expect_subset(df2, by = "id", data = df1)
+
+
+sales <- data.frame(
+  sale_id = 1:5,
+  item_code = c("a_1", "b_2", "c_2", NA, "NULL")
+)
+try(expect_regex(item_code, "[a-z]_[0-9]", data = sales)) # Codes match regex
+try(expect_max_length(item_code, 3, data = sales)) # Code width <= 3
+
+sales <- data.frame(
+  sale_id = 1:5,
+  date = c("20200101", "20200101", "20200102", "20200103", "2020003"),
+  sale_price = c(10, 20, 30, 40, -1),
+  book_title = c(
+    "Phenomenology of Spirit",
+    NA,
+    "Critique of Practical Reason",
+    "Spirit of Trust",
+    "Empiricism and the Philosophy of Mind"
+  ),
+  stringsAsFactors = FALSE
+)
+
+# Check price values mostly between 0 and 100
+try(expect_prop_values(sale_price, 0.9, 1:100, data = sales))

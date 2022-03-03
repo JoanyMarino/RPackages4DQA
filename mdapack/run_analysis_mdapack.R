@@ -13,6 +13,7 @@ sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 # Integrity
 checkValidity(sd1)
 checkValidity(sd1, numeric=TRUE, cat = TRUE)
+checkValidity(sd1, numeric=TRUE, cat = FALSE)
 checkVariableNames(sd1, c("age","sex", "id", "sbp1", "sbp2"))
 
 # Completeness
@@ -25,3 +26,11 @@ outlier_detection(sd1)
 univariateAnalysis(sd1, hist = TRUE)
 univariateAnalysis(sd1$age, hist = TRUE)
 plotHeatmapGroup(sd1[,11:14])
+
+univariateAnalysis(
+  sd1[, c("age", "ldl")],
+  hist = FALSE,
+  boxplot = FALSE,
+  qqnorm = FALSE,
+  shapiro = TRUE
+)

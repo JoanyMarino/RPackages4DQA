@@ -52,3 +52,6 @@ identifyMissing(factor(v3))
 
 # Not working
 # identifyMissing(sd1$obs_bp)
+
+identifyLoners(c(rep(c("a", "b", "c"), 10), "d", "d"))
+identifyLoners(sd1$waist)

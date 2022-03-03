@@ -16,6 +16,8 @@ assert_nrows(sd1,(300*29))
 # Check columns
 assert_colnames(sd1,c("id","exdate","age","sex","cholesterol","weight"))
 
+assert_coltypes(CO2, list(Plant = integer(), conc = double()))
+
 # Check that values are in set
 
 # Check NAs

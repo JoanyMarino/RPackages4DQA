@@ -30,7 +30,8 @@ checklist <- sc_col_elements(object = sd1,
 checklist <- sc_col_elements(object = sd1,
                              col = "school",
                              feasible_elements = c(0:3),
-                             description = "correct codes")
+                             description = "correct codes",
+                             example_size = nrow(sd1))
 
 # Numeric ranges ----
 # (Inadmissible numerical values)
@@ -43,8 +44,8 @@ checklist <- sc_cols_bounded(object = sd1,
 #                             col = "exdate",
 #                             feasible_elements = c(as.Date("1995-01-01"):as.Date("2050-12-31")),
 #                             description = "date ranges")
-#get_sanity_checks()
-#clear_sanity_checks()
+result <- get_sanity_checks()
+clear_sanity_checks()
 
 # Data set combinations ----
 # generate two subsets with overlap and errors
@@ -63,3 +64,13 @@ checklist <- sc_left_join(res_fullouterjoin, left = sd1_sub2, right = sd1_sub1, 
 get_sanity_checks()
 # if needed to remove checks:
 #clear_sanity_checks()
+
+ab <- data.table::data.table(a = 1:4, b = letters[1:4])
+abc <- data.table::data.table(a = c(1:4, 2), b = letters[1:5], c = rnorm(5))
+j <- merge(x = ab, y = abc, by = "a")
+dummy_call <- function() {
+  sc_left_join(joined = j, left = ab, right = abc, by = "a",
+               description = "Left join outcome to main population")
+}
+dummy_call()
+get_sanity_checks()

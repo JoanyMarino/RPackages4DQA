@@ -30,7 +30,7 @@ ExpNumStat(sd1,by="GA",gp="Urban",Qnt=seq(0,1,0.1),MesofShape=2,Outlier=TRUE,rou
 
 # Summary of categorical variables
 # Frequency or custom tables for categorical variables
-ExpCTable(sd1,Target=NULL,margin=1,clim=10,nlim=5,round=2,bin=NULL,per=T)
+ExpCTable(sd1,Target=NULL,margin=1,clim=2,nlim=5,round=2,bin=NULL,per=T)
 
 # Univariate Outlier analysis 
 # Identifying outliers method - Boxplot
@@ -40,4 +40,5 @@ ExpOutliers(sd1, varlist = c("age","sbp1","dbp1"), method = "boxplot",  capping 
 ExpOutliers(sd1, varlist = c("age","sbp1","dbp1"), method = "3xStDev",  capping = c(0.1, 0.9))
 
 # Identifying outliers method - 2 Standard Deviation
-ExpOutliers(sd1, varlist = c("age","sbp1","dbp1"), method = "2xStDev",  capping = c(0.1, 0.9))
+out1 <- ExpOutliers(sd1, varlist = c("age","sbp1","dbp1"), method = "2xStDev",  capping = c(0.1, 0.9),
+            outflag = TRUE)

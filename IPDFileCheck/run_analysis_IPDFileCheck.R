@@ -18,17 +18,15 @@ test_df <- data.frame(
 
 # check if a column exists
 check_column_exists("sex", sd1)
+check_column_exists("qwer", sd1)
 
-# Are column entries in a given list?
-test_column_contents(sd1,"sex",c(1,2),NA)
-test_column_contents(sd1,"sex",c(1,2))
-test_column_contents(sd1,"sex",c(1,5))
 
 # Check column names
 test_columnnames(c("age","sex", "id", "sbp1", "sbp2"), sd1)
 test_columnnames(c("id", "exdate", "age","sex", "sbp1", "sbp2"), sd1)
 # All the columns must be entered, otherwise the output is an error, see example below
 test_columnnames(c("age", "name"), test_df)
+test_columnnames(c("name", "age"), test_df)
 
 # Check the format of ’age’ in dat
 # by default, age should be numeric and with in limits of 0 and 150
@@ -43,6 +41,10 @@ test_gender(sd1, c(1,2),"sex", 9999)
 test_data_numeric("age", sd1, NA, 0, 100)
 test_data_numeric("sbp1", sd1, 9999, 80, 200)
 test_data_numeric("sbp1", sd1, 9999, 80, 300)
+# does not handle dates in the same way
+test_data_numeric("exdate", sd1, NA, "1997-10-16", "2001-05-19")
+descriptive_stats_col_excl_nrcode(sd1, "exdate")
+descriptive_stats_col_excl_nrcode(sd1, "sbp1")
 
 # Check that column is numeric
 test_data_numeric_norange("age",sd1,NA)
@@ -55,6 +57,11 @@ test_data_string(test_df, "Name", NA)
 # Check the contents of a string column
 # test_data_string_restriction(rctdata,"arm",NA, c("Intervention","Control"))
 test_data_string_restriction(sd1,"sex", NA, c(1, 2))
+
+# Are column entries in a given list?
+test_column_contents(sd1,"sex",c(1,2),NA)
+test_column_contents(sd1,"sex",c(1,2))
+test_column_contents(sd1,"sex",c(1,5))
 
 # Descriptive stats
 descriptive_stats_col_excl_nrcode(sd1, "age")

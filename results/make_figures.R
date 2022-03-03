@@ -96,6 +96,8 @@ dq_domains_long <- dq_domains_wide %>%
                              # else, no
                              TRUE ~ "Not incorporated")) 
 
+# write.csv(dq_domains_long,"./results/dq_domains_long.csv", row.names = TRUE)
+
 dq_domains <- dq_domains_long %>% 
   group_by(Criteria, Feature) %>% 
   tally() 

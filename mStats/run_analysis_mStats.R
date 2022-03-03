@@ -19,7 +19,7 @@ x <- tab(sd1)
 summary(x)
 
 # Duplicates
-duplicates(sd1)
+dups <- duplicates(sd1)
 
 # Distributions
 histogram(sd1, age)

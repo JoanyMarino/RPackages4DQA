@@ -55,3 +55,29 @@ plotar(data=sd1, input = "cholesterol", target="myocard", plot_type="histdens")
 tukey_outlier(sd1$sbp1)
 hampel_outlier(sd1$sbp1)
 
+# Compare datasets
+data(heart_disease)
+a=heart_disease
+b=heart_disease
+a=subset(a, age >45)
+b=subset(b, age <50)
+b$gender='male'
+b$chest_pain=ifelse(b$chest_pain ==3, 4, b$chest_pain)
+res=compare_df(a, b, c('age', 'gender'))
+# Print the keys that didn't match
+res
+# Accessing the keys not present in the first data frame
+res[[1]]$rows_not_in_X
+# Accessing the keys not present in the second data frame
+res[[1]]$rows_not_in_Y
+# Accessing the keys which coincide completely
+res[[1]]$coincident
+# Accessing the rows whose values did not coincide
+res[[1]]$different_values
+
+v1=c("height","weight","age")
+v2=c("height","weight","location","q_visits")
+res=v_compare(vector_x=v1, vector_y=v2)
+# Print the keys that didn't match
+res
+# Accessing the keys not present i

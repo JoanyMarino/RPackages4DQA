@@ -69,3 +69,10 @@ summary(validation_result_long)
 # # Export to file
 # export_ess_validation_report(validation_result, validation_rules, file="report_ship_validate.json")
 
+df <- data.frame(id = 11001:11003, year = c("2018","2019","2020"), value = 1:3)
+rule <- validator(field_length(year, 4), field_length(id, 4))
+out <- confront(df, rule)
+as.data.frame(out)
+
+x <- seq(1,20,by=0.1)
+plot(x,hb(x), 'l')

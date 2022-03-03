@@ -11,7 +11,7 @@ sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 # Run analysis ----
 
 # Anomaly detection
-anomalies(sd1)
+anomalies(sd1, anomaly_threshold = 0.8)
 
 # Distributions
-distributions(sd1)
+distributions(sd1, charts = T)

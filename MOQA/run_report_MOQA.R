@@ -42,3 +42,9 @@ mosaic.createSimplePdfMetricDataframe(sd1_metric_subset, outputFolder)
 
 # For categorical variables
 mosaic.createSimplePdfCategoricalDataframe(sd1_categorical, outputFolder)
+
+sd2 <- sd1[,c("sex", "diab_known", "contraception")]
+
+mosaic.setGlobalCodelist(c('1=yes','2=no', '3=wert','4=nwerty', '0=uio', '99900=no information' , '99801=no information again'))
+mosaic.createSimplePdfCategoricalDataframe(sd2, outputFolder)
+

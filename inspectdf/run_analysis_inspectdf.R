@@ -36,7 +36,9 @@ inspect_cor(sd1) %>% show_plot()
 
 # Categorical features -----
 # Summary
-sd1_cat <- inspect_cat(sd1)
+sd1_cat <- inspect_cat(sd1, include_int = TRUE)
+inspect_cat(sd1, include_int = TRUE) %>% show_plot()
+
 # only selects character strings
 # so the following does not work
 # Feature imbalance
@@ -47,3 +49,8 @@ inspect_imb(sd1) %>% show_plot()
 # Memory usage ----
 inspect_mem(sd1)
 inspect_mem(sd1) %>% show_plot()
+
+a <- sd1[,1:5]
+b <- sd1[,6:10]
+
+test <- inspect_types(a,b)
