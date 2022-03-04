@@ -31,9 +31,10 @@ dq_long <- dq_broad_wide %>%
     values_drop_na = FALSE) %>% 
   mutate(Criteria = factor(Criteria),
          Package = factor(Package), 
-         Feature = case_when(Feature == "yes" ~ "Incorporated", 
+         Feature = case_when(!is.na(Feature) ~ "Incorporated", 
                              # else, no
                              TRUE ~ "Not incorporated")) 
+
 # Count
 dq_broad <- dq_long %>% 
   group_by(Criteria, Feature) %>% 
@@ -45,15 +46,15 @@ dq_broad$Criteria <- factor(dq_broad$Criteria,
                                            "Based on a data quality framework", 
                                            "Control via GUI",
                                            "Reproducibility via programming",
-                                           "Single function for output",
+                                           "Single function call for output",
                                            "Report generation (not only console)",
                                            "Input of metadata through functions",
                                            "Input of metadata through separate file",
                                            "Grading of data quality issues",
                                            "Data set summary/overview",
                                            "Descriptive summary statistics",
-                                           "Descriptive statistics graphs (univariate)",
-                                           "Descriptive statistics graphs (multivariate)",
+                                           "Descriptive statistics graphs - univariate",
+                                           "Descriptive statistics graphs - multivariate",
                                            "Handles string properties")))
 
 dq_broad$Feature <- factor(dq_broad$Feature, 
@@ -67,8 +68,8 @@ fig2 <- ggplot(dq_broad,
   geom_text(position = position_fill(vjust = 0.5),
             colour = "white", 
             size = rel(5.5)) +
-  scale_fill_manual(values = c("Incorporated" = "#56B4E9", 
-                               "Not incorporated" = "#E69F00")) +
+  scale_fill_manual(values = c("Incorporated" = "#005191", 
+                               "Not incorporated" = "#E59100")) +
   coord_flip() + 
   labs(y = "No. of Domains")  +
   theme_classic() +
@@ -129,9 +130,9 @@ fig3 <- ggplot(dq_domains,
   geom_text(position = position_fill(vjust = 0.5),
             colour = "white", 
             size = rel(5.5)) +
-  scale_fill_manual(values = c("Indicator" = "#56B4E9", 
-                               "Descriptor" = "#0072B2", 
-                               "Not incorporated" = "#E69F00")) +
+  scale_fill_manual(values = c("Indicator" = "#005191", 
+                               "Descriptor" = "#56B4E9", 
+                               "Not incorporated" = "#E59100")) +
   coord_flip() + 
   # scale_x_discrete(limits = rev(levels(dq_broad$Criteria))) +
   labs(y = "No. of Domains")  +
@@ -147,5 +148,5 @@ fig3 <- ggplot(dq_domains,
         legend.text = element_text(size=rel(1.3))
   )
 
-ggsave("figs/fig2_v5.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
-ggsave("figs/fig3_v5.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
+ggsave("figs/fig2_v6.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
+ggsave("figs/fig3_v6.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
