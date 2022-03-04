@@ -3,6 +3,7 @@
 library(readxl)
 library(tidyverse)
 library(ggpubr)
+library(patchwork)
 
 # Arrange data ----
 
@@ -15,8 +16,10 @@ pkgs <- subset(pkgs, select=-c(analyzer, discoveR))
 # str_count(test, '(^|,)[0-9]+d(,|$)')
 # str_count(test, '(^|,)[0-9]+[A-Z]?(,|$)')
 
+# gsub("a.*?z", "match", c("abc,xyz,abc,xyz"))
+
 pkgs_long <- pkgs %>%  
-  mutate(across(xplorerr, as.character)) %>% 
+  # mutate(across(xplorerr, as.character)) %>% 
   pivot_longer(
     cols = assertable:xray,
     names_to = c("Package"),
@@ -26,13 +29,31 @@ pkgs_long <- pkgs %>%
          Domain = factor(Domain),
          Package = factor(Package)) %>%
   # remove spaces
-  mutate(Feature = gsub("\\s+", "", Feature, perl = TRUE)) %>%
-  # Count features by package
-  mutate(Descriptors = str_count(Feature, '(^|,)[0-9]+d(,|$)'),
-         Indicators = str_count(Feature, '(^|,)[0-9]+[A-Z]?(,|$)')) %>%
-  # mutate(Descriptors = replace_na(Descriptors, 0),
-  #        Indicators = replace_na(Indicators, 0)) %>%
-  # Reorder dimension levels for plot 
+  mutate(Feature = gsub("\\s+", "", Feature, perl = TRUE)) 
+
+pkgs_long$Descriptors <- vapply(pkgs_long$Feature, function(x) {
+    indicators <- trimws(strsplit(x, ",", fixed = TRUE)[[1]])
+    descriptors <- sum(endsWith(indicators, "d"))
+    descriptors
+  }, FUN.VALUE = integer(1)
+)
+
+pkgs_long$Indicators <- vapply(pkgs_long$Feature, function(x) {
+    indicators <- trimws(strsplit(x, ",", fixed = TRUE)[[1]])
+    descriptors <- sum(!endsWith(indicators, "d"))
+    descriptors
+  }, FUN.VALUE = integer(1)
+)
+
+# #%>%
+#   # mutate(Feature = unlist(str_split(Feature, ","))) %>%
+#   # Count features by package
+#   mutate(Descriptors = sum(grepl(x = Feature, pattern = '(^|,)[0-9]+?d(,|$)', perl = TRUE)),
+#          Indicators = sum(grepl(x = Feature, pattern = '(^|,)[0-9]+?[A-Z]?(,|$)', perl = TRUE))) #%>%
+#   # mutate(Descriptors = replace_na(Descriptors, 0),
+#   #        Indicators = replace_na(Indicators, 0)) %>%
+#   # Reorder dimension levels for plot 
+pkgs_long <- pkgs_long %>%
   mutate(Dimension = fct_relevel(Dimension, 
                               "Integrity", 
                               "Completeness", 
@@ -54,14 +75,15 @@ pkgs_long <- pkgs %>%
                               )) 
 
 # Color palette
-pal2 <- c("#0072B2", "#009E73", "#E69F00", "#D55E00")
+# pal2 <- c("#56B4E9", "#009E73", "#E69F00", "#D55E00")
+pal2 <- c("#56B4E9", "#009E73", "#E69F00", "#D55E00")
 
 # Figure 4: Indicators by package ----
-dq_indicators <- pkgs_long %>% select(!c(Feature, Descriptors))
+dq_indicators <- pkgs_long %>% 
+  select(!c(Feature, Descriptors)) %>% 
+  filter(Indicators != 0) %>% count(Dimension, Package)
 
-pkgs_indicators <- dq_indicators %>% count(Dimension, Package)
-
-fig4 <- ggplot(pkgs_indicators, 
+fig4 <- ggplot(dq_indicators, 
                aes(x = Package, y = n, label = n, 
                    fill = forcats::fct_rev(Dimension))) +
   geom_bar(stat = "identity", 
@@ -73,8 +95,8 @@ fig4 <- ggplot(pkgs_indicators,
                     guide = guide_legend(reverse = TRUE),
                     name = "Dimension") +  
   coord_flip() +
-  scale_x_discrete(limits = rev(levels(pkgs_indicators$Package))) +
-  scale_y_continuous(n.breaks = 6, limits = c(0, 10),
+  scale_x_discrete(limits = rev(levels(dq_indicators$Package))) +
+  scale_y_continuous(n.breaks = 6, limits = c(0, 6),
                      expand = expansion(add = c(0, .1))) +
   labs(y = "No. of Domains with Data Quality Indicators")  +
   theme_classic() +
@@ -85,21 +107,22 @@ fig4 <- ggplot(pkgs_indicators,
         axis.text.y=element_text(size=rel(1.8)),
         axis.title.x=element_text(size=rel(1.7)), 
         axis.title.y= element_blank(),
-        legend.position="top", 
-        legend.justification='right',
-        legend.title = element_text(size=rel(1.5)),
-        legend.text = element_text(size=rel(1.4))
+        legend.position="none" 
+        # legend.justification='right',
+        # legend.title = element_text(size=rel(1.5)),
+        # legend.text = element_text(size=rel(1.4))
   ) 
 fig4
 
 
-# Figure 4: Descriptors by package ----
-pkgs_domains <- pkgs_long %>% count(Dimension, Package)
+# Figure 5: Descriptors by package ----
+dq_descriptors <- pkgs_long %>% 
+  select(!c(Feature, Indicators)) %>% 
+  filter(Descriptors != 0) %>% 
+  count(Dimension, Package) %>%
+  mutate(Package = fct_drop(Package))
 
-
-
-
-fig4 <- ggplot(pkgs_domains, 
+fig5 <- ggplot(dq_descriptors, 
                aes(x = Package, y = n, label = n, 
                    fill = forcats::fct_rev(Dimension))) +
   geom_bar(stat = "identity", 
@@ -111,10 +134,10 @@ fig4 <- ggplot(pkgs_domains,
                     guide = guide_legend(reverse = TRUE),
                     name = "Dimension") +  
   coord_flip() +
-  scale_x_discrete(limits = rev(levels(pkgs_domains$Package))) +
-  scale_y_continuous(n.breaks = 6, limits = c(0, 10),
+  scale_x_discrete(limits = rev(levels(dq_descriptors$Package))) +
+  scale_y_continuous(n.breaks = 6, limits = c(0, 6),
                      expand = expansion(add = c(0, .1))) +
-  labs(y = "No. of Domains with Data Quality Indicators")  +
+  labs(y = "No. of Domains with Data Quality Descriptors")  +
   theme_classic() +
   theme(aspect.ratio = 1.1, 
         axis.line.y = element_blank(),
@@ -123,15 +146,24 @@ fig4 <- ggplot(pkgs_domains,
         axis.text.y=element_text(size=rel(1.8)),
         axis.title.x=element_text(size=rel(1.7)), 
         axis.title.y= element_blank(),
-        legend.position="top", 
-        legend.justification='right',
-        legend.title = element_text(size=rel(1.5)),
-        legend.text = element_text(size=rel(1.4))
-  ) 
-fig4
+        legend.position="none",
+        # legend.justification='right',
+        # legend.title = element_text(size=rel(1.5)),
+        # legend.text = element_text(size=rel(1.4))
+  ) #+ guides(colour = guide_legend(nrow = 1))
 
 
-# Export ----
+
+
+combined <- fig4 + fig5 & theme(legend.position = "top",
+                                legend.title = element_text(size=rel(1.5)),
+                                legend.text = element_text(size=rel(1.4)))
+combined + plot_layout(guides = "collect")
+
+ggsave("figs/fig4_v5.pdf", width = 14, height = 8.5, units = "in", dpi = 400)
+
+
+# # Export ----
 # ggsave("figs/fig4_v5.pdf", fig4, width = 14, height = 8.5, units = "in", dpi = 400)
 # ggsave("figs/fig5_v4.pdf", fig5, width = 14, height = 8.5, units = "in", dpi = 400)
 
