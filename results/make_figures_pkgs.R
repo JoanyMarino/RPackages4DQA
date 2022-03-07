@@ -9,16 +9,20 @@ library(patchwork)
 
 # REPLACE PATH TO SPREADSHEET
 # TO DO: Move file to git repo
-pkgs <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_packages_dimensions_v2.xlsx")
+dq_table <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_paper_table_v06_indicators.xlsx")
 
-pkgs <- subset(pkgs, select=-c(analyzer, discoveR))
+# Remove last rows
+dq_table <- subset(dq_table, select=-c(analyzer, discoveR))
+dq_table <- dq_table[-seq(1, 14),]
+dq_table <- dq_table[-seq(11, nrow(dq_table)),]
 
 # str_count(test, '(^|,)[0-9]+d(,|$)')
 # str_count(test, '(^|,)[0-9]+[A-Z]?(,|$)')
 
 # gsub("a.*?z", "match", c("abc,xyz,abc,xyz"))
 
-pkgs_long <- pkgs %>%  
+pkgs <-  dq_table %>% 
+  separate(Criteria, c("Dimension", "Domain"), extra = "merge", fill = "right") %>%  
   # mutate(across(xplorerr, as.character)) %>% 
   pivot_longer(
     cols = assertable:xray,
@@ -31,29 +35,22 @@ pkgs_long <- pkgs %>%
   # remove spaces
   mutate(Feature = gsub("\\s+", "", Feature, perl = TRUE)) 
 
-pkgs_long$Descriptors <- vapply(pkgs_long$Feature, function(x) {
+pkgs$Descriptor <- vapply(pkgs$Feature, function(x) {
     indicators <- trimws(strsplit(x, ",", fixed = TRUE)[[1]])
     descriptors <- sum(endsWith(indicators, "d"))
     descriptors
   }, FUN.VALUE = integer(1)
 )
 
-pkgs_long$Indicators <- vapply(pkgs_long$Feature, function(x) {
+pkgs$Indicator <- vapply(pkgs$Feature, function(x) {
     indicators <- trimws(strsplit(x, ",", fixed = TRUE)[[1]])
     descriptors <- sum(!endsWith(indicators, "d"))
     descriptors
   }, FUN.VALUE = integer(1)
 )
 
-# #%>%
-#   # mutate(Feature = unlist(str_split(Feature, ","))) %>%
-#   # Count features by package
-#   mutate(Descriptors = sum(grepl(x = Feature, pattern = '(^|,)[0-9]+?d(,|$)', perl = TRUE)),
-#          Indicators = sum(grepl(x = Feature, pattern = '(^|,)[0-9]+?[A-Z]?(,|$)', perl = TRUE))) #%>%
-#   # mutate(Descriptors = replace_na(Descriptors, 0),
-#   #        Indicators = replace_na(Indicators, 0)) %>%
-#   # Reorder dimension levels for plot 
-pkgs_long <- pkgs_long %>%
+
+pkgs_long <- pkgs %>%
   mutate(Dimension = fct_relevel(Dimension, 
                               "Integrity", 
                               "Completeness", 
@@ -69,18 +66,88 @@ pkgs_long <- pkgs_long %>%
                               "Range and value violations",
                               "Contradictions",
                               "Unexpected distribution",
-                              "Unexpected association"
-                              # No package assesses this
-                              # "Disagreement of rep. meas."
-                              )) 
+                              "Unexpected association",
+                              "Disagreement of rep. meas."
+                              )) %>%
+  # Remove codes in Feature
+  subset(select=-Feature) %>%
+  pivot_longer(cols = Descriptor:Indicator, 
+               names_to="Feature", values_to="Value") %>% 
+  filter(Value != 0) %>%
+  mutate(Feature = fct_relevel(Feature, 
+                                 "Indicator", 
+                                 "Descriptor")) 
+  
+pkgs_long$Combined <- paste(pkgs_long$Dimension, pkgs_long$Feature)
+pkgs_long$Combined <- as.factor(pkgs_long$Combined)
+pkgs_long <- pkgs_long %>%
+  mutate(Combined = fct_relevel(Combined, 
+                                "Accuracy Descriptor",
+                                "Accuracy Indicator",
+                                "Consistency Descriptor",
+                                "Consistency Indicator",
+                                "Completeness Descriptor",
+                                "Completeness Indicator",
+                                "Integrity Descriptor",
+                                "Integrity Indicator"
+                                )) 
 
 # Color palette
 # pal2 <- c("#56B4E9", "#009E73", "#E69F00", "#D55E00")
-pal2 <- c("#56B4E9", "#009E73", "#E69F00", "#D55E00")
+pal2 <- c("#005191", "#56B4E9", # blues
+          "green", "#009E73", # greens
+          "#E59100", "#F0E442", # yellows
+          "#8C510A", "#D55E00") # red
+
+
+pkgs_long <- pkgs_long %>% arrange(Package, Dimension, Feature)
+
+ggplot(pkgs_long, 
+               aes(x = Package, y = Value, label = Value, 
+                   group = Combined,
+                   fill = Combined
+                   )) +
+  geom_bar(stat = "identity", 
+           color = "white",
+           width=1) +
+  geom_text(size = 4, position = position_stack(vjust = 0.5), 
+            colour = "white") +
+  scale_fill_manual(values = rev(pal2), 
+                    guide = guide_legend(reverse = TRUE),
+                    name = "Feature") +  
+  coord_flip() +
+  scale_x_discrete(limits = rev(levels(pkgs_long$Package))) +
+  scale_y_continuous(n.breaks = 8, limits = c(0, 26),
+                     expand = expansion(add = c(0, .1))) +
+  labs(y = "No. of Domains") +
+    # facet_wrap(~ Dimension, nrow = 1, scales = "free_x")   +
+  theme_classic() +
+  theme(aspect.ratio = 1.1, 
+        axis.line.y = element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.text.x=element_text(size=rel(1.6)),
+        axis.text.y=element_text(size=rel(1.8)),
+        axis.title.x=element_text(size=rel(1.7)), 
+        axis.title.y= element_blank(),
+        legend.position="top" 
+        # legend.justification='right',
+        # legend.title = element_text(size=rel(1.5)),
+        # legend.text = element_text(size=rel(1.4))
+  ) #+
+  scale_fill_manual(values = c("Incorporated" = "#005191", 
+                               "Not incorporated" = "#E59100"))
+
+pal2 <- c("#005191", "#56B4E9", # blues
+          "green", "#009E73", # greens
+          "#E59100", "#F0E442", # yellows
+          "#8C510A", "#D55E00") # red
+
+
 
 # Figure 4: Indicators by package ----
 dq_indicators <- pkgs_long %>% 
-  select(!c(Feature, Descriptors)) %>% 
+  select(!c(Feature, Descriptors)) %>%
+  # select(!c(Feature)) %>% 
   filter(Indicators != 0) %>% count(Dimension, Package)
 
 fig4 <- ggplot(dq_indicators, 
