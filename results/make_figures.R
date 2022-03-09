@@ -6,13 +6,11 @@ library(readxl)
 
 # Arrange data ----
 
-# REPLACE PATH TO SPREADSHEET
-# TO DO: Move file to git repo
-dq_table <- read_excel("~/Documents/2021-10_DataQualityToolsReviewPaper/DQ_paper_table_v06_indicators.xlsx")
+dq_table <- read_excel("./data/DQ_paper_table_v06_indicators.xlsx")
 
 # Remove last rows
 dq_table <- dq_table[-seq(25, nrow(dq_table)),]
-dq_table <- subset(dq_table, select=-c(analyzer, discoveR))
+dq_table <- subset(dq_table, select=-c(discoveR, mdapack))
 
 
 # Split tables
@@ -24,7 +22,6 @@ dq_domains_wide <- dq_table[c(15:24),]
 # Convert to long format
 dq_long <- dq_broad_wide %>%  
   pivot_longer(
-    # CHANGE cols TO MATCH ORDER IN SPREADSHEET
     cols = assertable:xray,
     names_to = c("Package"),
     values_to = "Feature",
@@ -89,7 +86,6 @@ fig2 <- ggplot(dq_broad,
 # Convert to long format
 dq_domains_long <- dq_domains_wide %>%  
   pivot_longer(
-    # CHANGE cols TO MATCH ORDER IN SPREADSHEET
     cols = assertable:xray,
     names_to = c("Package"),
     values_to = "Feature",
@@ -100,8 +96,6 @@ dq_domains_long <- dq_domains_wide %>%
                              str_detect(Feature, "d") ~ "Descriptor", 
                              # else, no
                              TRUE ~ "Not incorporated")) 
-
-# write.csv(dq_domains_long,"./results/dq_domains_long.csv", row.names = TRUE)
 
 dq_domains <- dq_domains_long %>% 
   group_by(Criteria, Feature) %>% 
@@ -148,5 +142,7 @@ fig3 <- ggplot(dq_domains,
         legend.text = element_text(size=rel(1.3))
   )
 
-ggsave("figs/fig2_v6.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
-ggsave("figs/fig3_v6.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
+# Export ----
+
+ggsave("figs/fig2_v10.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
+ggsave("figs/fig3_v10.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
