@@ -1,0 +1,147 @@
+designation,source_variable_name,filter,source_table_name,source_system_name,source_system_type,key,variable_name,variable_type,restricting_date_var,constraints,dqa_assessment,definition,data_map,plausibility_relation
+id,id,,ship_data.csv,ship,csv,id,id,string,,"{
+  ""regex"": ""^[[:digit:]]{1,5}$""
+}",1,Description for dataelement 'id',,
+exdate,exdate,,ship_data.csv,ship,csv,exdate,exdate,datetime,,,1,Description for dataelement 'exdate',,
+age,age,,ship_data.csv,ship,csv,age,age,integer,,"{
+  ""range"": {
+    ""min"": 20,
+    ""max"": ""Inf""
+  }
+}",1,Description for dataelement 'age',,
+sex,sex,,ship_data.csv,ship,csv,sex,sex,enumerated,,"{
+  ""value_set"": [""1"", ""2""]
+}",1,"Description for dataelement 'sex': 
+
+1 = males; 2 = females",,"{""atemporal"":{""contraception"":{""name"":[""A_present_and_B_vv""],""description"":[""Contracept in males.""],""join_crit"":[""id""],""filter"":{""ship"":[""^1$""]},""constraints"":{""value_set"":{""ship"":[""1""]}}}}}"
+obs_bp,obs_bp,,ship_data.csv,ship,csv,obs_bp,obs_bp,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10"", ""11"", ""12"", ""13"", ""14"", ""15"", ""16"", ""17"", ""18"", ""19"", ""20""]
+}",1,"Description for dataelement 'obs_bp': 
+
+1 = Obs_01; 2 = Obs_02; 3 = Obs_03; 4 = Obs_04; 5 = Obs_05; 6 = Obs_06; 7 = Obs_07; 8 = Obs_08; 9 = Obs_09; 10 = Obs_10; 11 = Obs_11; 12 = Obs_12; 13 = Obs_13; 14 = Obs_14; 15 = Obs_15; 16 = Obs_16; 17 = Obs_17; 18 = Obs_18; 19 = Obs_19; 20 = Obs_20",,
+obs_soma,obs_soma,,ship_data.csv,ship,csv,obs_soma,obs_soma,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10""]
+}",1,"Description for dataelement 'obs_soma': 
+
+1 = Obs_01; 2 = Obs_02; 3 = Obs_03; 4 = Obs_04; 5 = Obs_05; 6 = Obs_06; 7 = Obs_07; 8 = Obs_08; 9 = Obs_09; 10 = Obs_10 ",,
+obs_int,obs_int,,ship_data.csv,ship,csv,obs_int,obs_int,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10"", ""11"", ""12"", ""13"", ""14"", ""15"", ""16"", ""17"", ""18"", ""19"", ""20"", ""21"", ""22"", ""23"", ""24"", ""25""]
+}",1,"Description for dataelement 'obs_int': 
+
+1 = Obs_01; 2 = Obs_02; 3 = Obs_03; 4 = Obs_04; 5 = Obs_05; 6 = Obs_06; 7 = Obs_07; 8 = Obs_08; 9 = Obs_09; 10 = Obs_10; 11 = Obs_11; 12 = Obs_12; 13 = Obs_13; 14 = Obs_14; 15 = Obs_15; 16 = Obs_16; 17 = Obs_17; 18 = Obs_18; 19 = Obs_19; 20 = Obs_20 ; 21 = Obs_21; 22 = Obs_22; 23 = Obs_23; 24 = Obs_24; 25 = Obs_25",,
+dev_bp,dev_bp,,ship_data.csv,ship,csv,dev_bp,dev_bp,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10"", ""11"", ""12"", ""13"", ""14"", ""15"", ""16"", ""17"", ""18"", ""19"", ""20"", ""21"", ""22"", ""23"", ""24"", ""25""]
+}",1,"Description for dataelement 'dev_bp': 
+
+1 = Dev_01; 2 = Dev_02; 3 = Dev_03; 4 = Dev_04; 5 = Dev_05; 6 = Dev_06; 7 = Dev_07; 8 = Dev_08; 9 = Dev_09; 10 = Dev_10; 11 = Dev_11; 12 = Dev_12; 13 = Dev_13; 14 = Dev_14; 15 = Dev_15; 16 = Dev_16; 17 = Dev_17; 18 = Dev_18; 19 = Dev_19; 20 = Dev_20; 21 = Dev_21; 22 = Dev_22; 23 = Dev_23; 24 = Dev_24; 25 = Dev_25 ",,
+dev_length,dev_length,,ship_data.csv,ship,csv,dev_length,dev_length,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10"", ""11"", ""12"", ""13"", ""14"", ""15"", ""16"", ""17"", ""18"", ""19"", ""20"", ""21"", ""22"", ""23"", ""24"", ""25""]
+}",1,"Description for dataelement 'dev_length': 
+
+1 = Dev_01; 2 = Dev_02; 3 = Dev_03; 4 = Dev_04; 5 = Dev_05; 6 = Dev_06; 7 = Dev_07; 8 = Dev_08; 9 = Dev_09; 10 = Dev_10; 11 = Dev_11; 12 = Dev_12; 13 = Dev_13; 14 = Dev_14; 15 = Dev_15; 16 = Dev_16; 17 = Dev_17; 18 = Dev_18; 19 = Dev_19; 20 = Dev_20; 21 = Dev_21; 22 = Dev_22; 23 = Dev_23; 24 = Dev_24; 25 = Dev_25 ",,
+dev_weight,dev_weight,,ship_data.csv,ship,csv,dev_weight,dev_weight,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10"", ""11"", ""12"", ""13"", ""14"", ""15"", ""16"", ""17"", ""18"", ""19"", ""20"", ""21"", ""22"", ""23"", ""24"", ""25""]
+}",1,"Description for dataelement 'dev_weight': 
+
+1 = Dev_01; 2 = Dev_02; 3 = Dev_03; 4 = Dev_04; 5 = Dev_05; 6 = Dev_06; 7 = Dev_07; 8 = Dev_08; 9 = Dev_09; 10 = Dev_10; 11 = Dev_11; 12 = Dev_12; 13 = Dev_13; 14 = Dev_14; 15 = Dev_15; 16 = Dev_16; 17 = Dev_17; 18 = Dev_18; 19 = Dev_19; 20 = Dev_20; 21 = Dev_21; 22 = Dev_22; 23 = Dev_23; 24 = Dev_24; 25 = Dev_25 ",,
+sbp1,sbp1,,ship_data.csv,ship,csv,sbp1,sbp1,integer,,"{
+  ""range"": {
+    ""min"": 80,
+    ""max"": 200
+  }
+}",1,Description for dataelement 'sbp1',,
+sbp2,sbp2,,ship_data.csv,ship,csv,sbp2,sbp2,integer,,"{
+  ""range"": {
+    ""min"": 80,
+    ""max"": 200
+  }
+}",1,Description for dataelement 'sbp2',,
+dbp1,dbp1,,ship_data.csv,ship,csv,dbp1,dbp1,integer,,"{
+  ""range"": {
+    ""min"": 40,
+    ""max"": 160
+  }
+}",1,Description for dataelement 'dbp1',,
+dbp2,dbp2,,ship_data.csv,ship,csv,dbp2,dbp2,integer,,"{
+  ""range"": {
+    ""min"": 40,
+    ""max"": 160
+  }
+}",1,Description for dataelement 'dbp2',,
+height,height,,ship_data.csv,ship,csv,height,height,integer,,"{
+  ""range"": {
+    ""min"": 80,
+    ""max"": 230
+  }
+}",1,Description for dataelement 'height',,
+weight,weight,,ship_data.csv,ship,csv,weight,weight,float,,"{
+  ""range"": {
+    ""min"": 30,
+    ""max"": 250
+  }
+}",1,Description for dataelement 'weight',,
+waist,waist,,ship_data.csv,ship,csv,waist,waist,float,,"{
+  ""range"": {
+    ""min"": 30,
+    ""max"": ""Inf""
+  }
+}",1,Description for dataelement 'waist',,
+cholesterol,cholesterol,,ship_data.csv,ship,csv,cholesterol,cholesterol,float,,"{
+  ""range"": {
+    ""min"": 0,
+    ""max"": ""Inf""
+  }
+}",1,Description for dataelement 'cholesterol',,
+hdl,hdl,,ship_data.csv,ship,csv,hdl,hdl,float,,"{
+  ""range"": {
+    ""min"": 0,
+    ""max"": ""Inf""
+  }
+}",1,Description for dataelement 'hdl',,
+ldl,ldl,,ship_data.csv,ship,csv,ldl,ldl,float,,"{
+  ""range"": {
+    ""min"": 0,
+    ""max"": ""Inf""
+  }
+}",1,Description for dataelement 'ldl',,
+school,school,,ship_data.csv,ship,csv,school,school,enumerated,,"{
+  ""value_set"": [""0"", ""1"", ""2"", ""3""]
+}",1,"Description for dataelement 'school': 
+
+0 = none; 1 = lower secondary; 2 = secondary; 3 = upper secondary",,
+family,family,,ship_data.csv,ship,csv,family,family,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5""]
+}",1,"Description for dataelement 'family': 
+
+1 = married; 2 = married (living apart); 3 = single (never married); 4 = divorced; 5 = widowed",,
+smoking,smoking,,ship_data.csv,ship,csv,smoking,smoking,enumerated,,"{
+  ""value_set"": [""0"", ""1"", ""2""]
+}",1,"Description for dataelement 'smoking': 
+
+0 = nonsmoker; 1 = former smoker; 2 = smoker",,
+myocard,myocard,,ship_data.csv,ship,csv,myocard,myocard,enumerated,,"{
+  ""value_set"": [""1"", ""2""]
+}",1,"Description for dataelement 'myocard': 
+
+1 = yes; 2 = no",,
+stroke,stroke,,ship_data.csv,ship,csv,stroke,stroke,enumerated,,"{
+  ""value_set"": [""1"", ""2""]
+}",1,"Description for dataelement 'stroke': 
+
+1 = yes; 2 = no",,
+diab_known,diab_known,,ship_data.csv,ship,csv,diab_known,diab_known,enumerated,,"{
+  ""value_set"": [""0"", ""1""]
+}",1,"Description for dataelement 'diab_known': 
+
+0 = no; 1 = yes",,"{""atemporal"":{""diab_age"":{""name"":[""A_present_and_B_levels_vl""],""description"":[""Diab age but no diab.""],""join_crit"":[""id""],""filter"":{""ship"":[""^(?!.*(99900|99901|99801)).*$""]},""constraints"":{""value_set"":{""ship"":[""1""]}}}}}"
+diab_age,diab_age,,ship_data.csv,ship,csv,diab_age,diab_age,integer,,,1,Description for dataelement 'diab_age',,
+contraception,contraception,,ship_data.csv,ship,csv,contraception,contraception,enumerated,,"{
+  ""value_set"": [""1"", ""2""]
+}",1,"Description for dataelement 'contraception': 
+
+1 = yes; 2 = no",,
+income,income,,ship_data.csv,ship,csv,income,income,enumerated,,"{
+  ""value_set"": [""1"", ""2"", ""3""]
+}",1,"Description for dataelement 'income': 
+
+1 = < 2000; 2 = 2000 ï¿½ 4000; 3 = > 4000",,
