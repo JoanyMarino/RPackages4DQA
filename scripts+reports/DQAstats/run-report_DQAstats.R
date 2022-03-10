@@ -22,7 +22,8 @@ results <- DQAstats::dqa(
   target_system_name = "exampleCSV_target",
   utils_path = utils_path,
   mdr_filename = "mdr_example_data.csv",
-  output_dir = here::here(base_dir, "demo_output")
+  output_dir = here::here(base_dir, "demo_output"),
+  parallel = FALSE
 )
 
 
@@ -91,7 +92,7 @@ all_results <- DQAstats::dqa(
   mdr_filename = mdr_filename,
   output_dir = output_dir,
   logfile_dir = logfile_dir,
-  parallel = TRUE
+  parallel = FALSE
 )
 
 
