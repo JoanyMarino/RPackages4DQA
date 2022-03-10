@@ -2,6 +2,7 @@
 # https://gitlab.miracum.org/miracum/dqa/dqastats
 
 if (!require(DQAstats)) install.packages("DQAstats")
+if (!require(magrittr)) install.packages("magrittr")
 
 # Run example report ----
 
@@ -25,12 +26,10 @@ results <- DQAstats::dqa(
 )
 
 
-
-# SHIP dataset
+# SHIP report ----
 
 # Study of Health in Pomerania
 # load the ship dataset
-library(magrittr)
 base_dir <- "scripts+reports/DQAstats"
 ship_data <- readRDS(
   system.file("extdata/ship.RDS", package = "dataquieR")
