@@ -3761,7 +3761,20 @@ No data available for reporting
 
 ## Uniqueness Plausibility
 
-There is no data to display.
+
+### sex  
+
+With each distinct value of 'id', only one value of 'sex' may be associated.  
+
+#### Representation in source data system  
+
+- Plausibility check: passed
+- Message: No duplicate occurrences of id found in association with sex.
+
+#### Representation in target data system  
+
+- Plausibility check: passed
+- Message: No duplicate occurrences of id found in association with sex.
 
 \newpage
 

@@ -14,13 +14,14 @@ Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data",
 utils_path <- system.file("demo_data/utilities",
                           package = "DQAstats")
 
+base_dir <- "scripts+reports/DQAstats"
 # Execute the DQA and generate a PDF report:
 results <- DQAstats::dqa(
   source_system_name = "exampleCSV_source",
   target_system_name = "exampleCSV_target",
   utils_path = utils_path,
   mdr_filename = "mdr_example_data.csv",
-  output_dir = "demo_output/"
+  output_dir = here::here(base_dir, "demo_output")
 )
 
 
@@ -52,6 +53,7 @@ data.table::fwrite(
 utils_path <- file.path(tempdir(), "utilities")
 dir.create(file.path(utils_path, "MDR"), recursive = TRUE)
 
+# prepare mdr according to https://github.com/kapsner/DQAstats2ship-dataset/blob/main/index.Rmd
 file.copy(
   from = here::here(base_dir, "mdr.csv"),
   to = file.path(utils_path, "MDR"),

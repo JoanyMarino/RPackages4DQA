@@ -1,7 +1,14 @@
 designation,source_variable_name,filter,source_table_name,source_system_name,source_system_type,key,variable_name,variable_type,restricting_date_var,constraints,dqa_assessment,definition,data_map,plausibility_relation
 id,id,,ship_data.csv,ship,csv,id,id,string,,"{
   ""regex"": ""^[[:digit:]]{1,5}$""
-}",1,Description for dataelement 'id',,
+}",1,Description for dataelement 'id',,"{
+  ""uniqueness"": {
+    ""sex"": {
+      ""name"": ""Every ID is associated with one Sex"",
+      ""description"": ""With each distinct value of 'id', only one value of 'sex' may be associated.""
+    }
+  }
+}"
 exdate,exdate,,ship_data.csv,ship,csv,exdate,exdate,datetime,,,1,Description for dataelement 'exdate',,
 age,age,,ship_data.csv,ship,csv,age,age,integer,,"{
   ""range"": {
@@ -13,7 +20,23 @@ sex,sex,,ship_data.csv,ship,csv,sex,sex,enumerated,,"{
   ""value_set"": [""1"", ""2""]
 }",1,"Description for dataelement 'sex': 
 
-1 = males; 2 = females",,"{""atemporal"":{""contraception"":{""name"":[""A_present_and_B_vv""],""description"":[""Contracept in males.""],""join_crit"":[""id""],""filter"":{""ship"":[""^1$""]},""constraints"":{""value_set"":{""ship"":[""1""]}}}}}"
+1 = males; 2 = females",,"{
+  ""atemporal"": {
+    ""contraception"": {
+      ""name"": ""A_present_and_B_vv"",
+      ""description"": ""Contracept in males."",
+      ""join_crit"": ""id"",
+      ""filter"": {
+        ""ship"": ""^1$""
+      },
+      ""constraints"": {
+        ""value_set"": {
+          ""ship"": ""1""
+        }
+      }
+    }
+  }
+}"
 obs_bp,obs_bp,,ship_data.csv,ship,csv,obs_bp,obs_bp,enumerated,,"{
   ""value_set"": [""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10"", ""11"", ""12"", ""13"", ""14"", ""15"", ""16"", ""17"", ""18"", ""19"", ""20""]
 }",1,"Description for dataelement 'obs_bp': 
@@ -133,7 +156,23 @@ diab_known,diab_known,,ship_data.csv,ship,csv,diab_known,diab_known,enumerated,,
   ""value_set"": [""0"", ""1""]
 }",1,"Description for dataelement 'diab_known': 
 
-0 = no; 1 = yes",,"{""atemporal"":{""diab_age"":{""name"":[""A_present_and_B_levels_vl""],""description"":[""Diab age but no diab.""],""join_crit"":[""id""],""filter"":{""ship"":[""^(?!.*(99900|99901|99801)).*$""]},""constraints"":{""value_set"":{""ship"":[""1""]}}}}}"
+0 = no; 1 = yes",,"{
+  ""atemporal"": {
+    ""diab_age"": {
+      ""name"": ""A_present_and_B_levels_vl"",
+      ""description"": ""Diab age but no diab."",
+      ""join_crit"": ""id"",
+      ""filter"": {
+        ""ship"": ""^(?!.*(99900|99901|99801)).*$""
+      },
+      ""constraints"": {
+        ""value_set"": {
+          ""ship"": ""1""
+        }
+      }
+    }
+  }
+}"
 diab_age,diab_age,,ship_data.csv,ship,csv,diab_age,diab_age,integer,,,1,Description for dataelement 'diab_age',,
 contraception,contraception,,ship_data.csv,ship,csv,contraception,contraception,enumerated,,"{
   ""value_set"": [""1"", ""2""]
