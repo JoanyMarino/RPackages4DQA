@@ -38,6 +38,9 @@ check_assertions <- . %>%
   # Outliers
   insist(within_n_sds(4), "sbp1") %>%
   # verify(has_all_names("mpgg"))  , error_fun = warn_report
+  # assert(within_bounds(as.Date("1997-10-16", "%Y-%m-%d"), as.Date("1998-10-16", "%Y-%m-%d")), "exdate") %>%
+  # assert(in_set(c(as.Date("1997-10-16", "%Y-%m-%d"), as.Date("1998-10-16", "%Y-%m-%d"))), "exdate") %>%
+  # dates do not work
   chain_end(success_fun=success_df_return) 
 
 # Run analysis ----
