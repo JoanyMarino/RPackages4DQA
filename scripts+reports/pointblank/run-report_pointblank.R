@@ -40,6 +40,7 @@ agent <-
   col_vals_in_set(vars(school), set = seq(0, 4)) %>%
   # Numerical values (inadmissible and uncertain)
   col_vals_between(vars(sbp1), left = 90, right = 80) %>%
+  col_vals_between(vars(exdate), left = "1997-10-16", right = "2001-05-19") %>%
   interrogate()
 
 agent

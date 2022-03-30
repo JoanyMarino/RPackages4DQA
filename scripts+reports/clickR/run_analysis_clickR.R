@@ -21,3 +21,6 @@ cluster_var(sd1)
 descriptive(sd1)
 peek(sd1)
 
+mydata <- data.frame(factor1=factor(c("Control", "Treatment", "Tretament", "Tratment", "treatment","teatment", "contrl", "cntrol", "CONTol", "not available", "na")))
+fix_levels(mydata, "factor1", k=4, plot=TRUE)   #Chose k to select matching levels
+fix_levels(mydata, "factor1", levels=c("Control", "Treatment"), k=4)

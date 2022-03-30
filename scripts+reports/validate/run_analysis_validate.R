@@ -76,3 +76,48 @@ as.data.frame(out)
 
 x <- seq(1,20,by=0.1)
 plot(x,hb(x), 'l')
+
+# Set membership operators ----
+# we cannot be sure about the first element:
+c(NA, "a") %vin% c("a","b")
+# we cannot be sure about the 2nd and 3rd element (but note that they
+# cannot both be TRUE):
+c("a","b","c") %vin% c("a",NA)
+# we can be sure about all elements:
+c("a","b") %in% character(0)
+
+# Number format ----
+df <- data.frame(number = c("12.34","0.23E55","0.98765E12"))
+rules <- validator(number_format(number, format="dd.dd"), number_format(number, "0.ddEdd"), number_format(number, "0.*Edd"))
+out <- confront(df, rules)
+values(out)
+
+# Dates ----
+d <- data.frame(
+  number = c(3,-2,6)
+  , time   = as.Date(c("2018-02-01", "2018-03-01", "2018-04-01"))
+  , period = c("2020Q1", "2021Q2", "2020Q3") 
+)
+
+rules <- validator(
+  in_range(number, min=-2, max=7, strict=TRUE)
+  , in_range(time,   min="2017-01-01", max="2018-12-31")
+  , in_range(period, min="2020Q1", max="2020Q4")
+)
+
+result <- confront(d, rules)
+values(result)
+
+
+# Plot ----
+rules <- validator( r1 = staff.costs < total.costs
+                    , r2 = turnover + other.rev == total.rev
+                    , r3 = other.rev > 0
+                    , r4 = total.rev > 0
+                    , r5 = nace %in% c("A", "B")
+)
+plot(rules, cex=0.8, show_legend=TRUE)
+
+data(retailers)
+cf <- confront(retailers, rules)
+plot(cf, main="Retailers check")

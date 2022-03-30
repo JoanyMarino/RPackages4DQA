@@ -33,7 +33,13 @@ check_package_key_word <- function(packages = c(), terms = c()) {
 }
 
 # edit accordingly ####
-kw <- "sd, var, qqplot, density, shapiro, wilk, kolmogorov, chisquare, chisq"
+kw <- "confor, verific, valid, temporal, 
+limit, range, bound, between, outside, numeric, expect, contain"
+# date, time, past, before, after, POSIXct, POSIXlt, 
+# match, categorical, level, factor, 
+# string, 
+# precision, decimal, format, 
+# forbidd, plausib, condition, contradict, inconsisten
 pk <- "assertable assertive assertr clickR DataExplorer DataExplorer dataquieR dataReporter DescTools dlookr DQAstats DQAstats ExPanDaR explore funModeling inspectdf IPDFileCheck MOQA mStats observer pointblank sanityTracker skimr SmartEDA StatMeasures summarytools testdat validate visdat xray"
 #####
 
