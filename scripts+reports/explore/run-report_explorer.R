@@ -37,5 +37,7 @@ describe(sd1)
 sd1 %>% describe(age)
 sd1 %>% describe(sbp1)
 
+sd1 %>% describe_cat(smoking)
+
 # Example from Vignette ---- 
 explore_cor(iris, x = Sepal.Length, y = Sepal.Width)

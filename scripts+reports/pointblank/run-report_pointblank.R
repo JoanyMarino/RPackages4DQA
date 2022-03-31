@@ -46,3 +46,28 @@ agent <-
 agent
 # get_agent_report(agent)
 
+# Contradictions ----
+tbl <-
+  dplyr::tibble(
+    a = c(1, 2, 1, 7, 8, 6),
+    b = c(0, 0, 0, 1, 1, 1),
+    c = c(0.5, 0.3, 0.8, 1.4, 1.9, 1.2),
+  )
+
+tbl %>% 
+  col_vals_expr(expr = expr(a %% 1 == 0)) %>%
+  dplyr::pull(a)
+
+expect_col_vals_expr(tbl, expr = ~ a %% 1 == 0)
+test_col_vals_expr(tbl, expr = ~ a %% 1 == 0)
+
+tbl %>%
+  test_col_vals_expr(expr = ~ case_when(
+    b == 0 ~ a %>% between(0, 5) & c < 1,
+    b == 1 ~ a > 5 & c >= 1
+  ))
+
+tbl %>%
+  test_col_vals_expr(expr = ~ case_when(
+    b == 1 ~ a > 5 & c >= 1
+  ))

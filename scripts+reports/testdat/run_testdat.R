@@ -43,6 +43,9 @@ test_that("date ranges", {
   expect_range(exdate, min=as.Date("1995-01-01"), max=as.Date("2050-12-31"))
 })
 
+sales <- data.frame(sale_id = 1:5,date = c("20200101", "20200101", "20200102", "20200103", "20220101"),sale_price = c(10, 20, 30, 40, -1))
+try(expect_values(date, 20000000:20210000, data = sales)) # Dates between 2000 and 2021
+
 # Code lists ----
 # (Inadmissible categorical values) 
 test_that("categorical values", {
@@ -101,3 +104,18 @@ sales <- data.frame(
 
 # Check price values mostly between 0 and 100
 try(expect_prop_values(sale_price, 0.9, 1:100, data = sales))
+
+# Precision ----
+df <- data.frame(number = c("12.34","0.23E55","0.98765E12"))
+
+try(expect_regex(number, "[[:digit:]]\\.[[:digit:]]+", data = df)) 
+try(expect_regex(number, "0\\.E[[:digit:]]", data = df)) 
+try(expect_regex(number, "0\\.E[[:digit:]]+", data = df)) 
+try(expect_regex(number, "0\\.[[:digit:]]+E[[:digit:]]+", data = df)) 
+
+sales <- data.frame(
+  sale_id = 1:5,
+  item_code = c("a_1", "b_2", "c_2", NA, "NULL")
+)
+
+try(expect_regex(item_code, "[a-z]_[0-9]", data = sales)) # Codes match regex

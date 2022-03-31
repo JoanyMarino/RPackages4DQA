@@ -14,6 +14,10 @@ sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 Abstract(sd1)
 Desc(sd1)
 
+# Categorical variables
+Desc(as.factor(sd1$sex))
+Desc(as.factor(sd1$smoking))
+
 # Missings
 PlotMiss(sd1, main="Missing data", clust = TRUE) 
 

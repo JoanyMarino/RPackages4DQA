@@ -88,9 +88,18 @@ c("a","b") %in% character(0)
 
 # Number format ----
 df <- data.frame(number = c("12.34","0.23E55","0.98765E12"))
-rules <- validator(number_format(number, format="dd.dd"), number_format(number, "0.ddEdd"), number_format(number, "0.*Edd"))
+rules <- validator(number_format(number, format="dd.dd"), 
+                   number_format(number, "0.ddEdd"), 
+                   number_format(number, "0.*Edd"))
 out <- confront(df, rules)
 values(out)
+
+rule <- validator(field_format(number, "??.??"),
+                  field_format(number, "0.*E??"),
+                  field_format(number, "0.?"))
+out  <- confront(df, rule)
+summary(out)
+
 
 # Dates ----
 d <- data.frame(

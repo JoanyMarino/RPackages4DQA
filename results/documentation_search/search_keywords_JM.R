@@ -34,7 +34,7 @@ check_package_key_word <- function(packages = c(), terms = c()) {
 
 # edit accordingly ####
 kw <- "confor, verific, valid, temporal, 
-limit, range, bound, between, outside, numeric, expect, contain"
+limit, range, bound, between, outside, expect, contain"
 # date, time, past, before, after, POSIXct, POSIXlt, 
 # match, categorical, level, factor, 
 # string, 

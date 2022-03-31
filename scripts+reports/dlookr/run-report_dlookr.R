@@ -17,9 +17,9 @@ summary(sd1_overview)
 plot(sd1_overview)
 
 # Needs to be run again because missing codes are included in the data
-diagnose(sd1)
+diagnosis <- diagnose(sd1)
 diagnose_numeric(sd1)
-diagnose_category(sd1)
+diagnosis_cat <- diagnose_category(sd1)
 
 # Outliers
 diagnose_outlier(sd1)
@@ -56,6 +56,25 @@ num_num <- relate(num, weight)
 num_num
 
 plot(num_num)
+
+# Precision
+get_column_info(sd1$age)
+get_column_info(sd1$cholesterol)
+
+# Not run 
+# connect DBMS
+con_sqlite <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+
+# copy heartfailure to the DBMS with a table named TB_HEARTFAILURE
+copy_to(con_sqlite, heartfailure, name = "TB_HEARTFAILURE", overwrite = TRUE)
+
+con_sqlite %>% 
+  tbl("TB_HEARTFAILURE") %>% 
+  get_column_info
+
+# Disconnect DBMS   
+DBI::dbDisconnect(con_sqlite)
+#  End not run
 
 # Run Exploratory Data Analysis report ----
 sd1 %>%
