@@ -33,8 +33,8 @@ check_package_key_word <- function(packages = c(), terms = c()) {
 }
 
 # keywords for integrity and completeness ####
-kw <- "dim, number, ncol, nrow, duplicate, unique, name, identical, mismatch, merge, join, type, numeric, date, format, nchar, tolower, toupper, grep, missing, empty, complete, is.na, non-?response, refusal, drop-out, missing value code, jump"
-pk <- "assertable assertive assertr clickR DataExplorer dataquieR dataReporter DescTools dlookr DQAstats ExPanDaR explore funModeling inspectdf IPDFileCheck mStats pointblank sanityTracker skimr SmartEDA StatMeasures summarytools testdat validate visdat xray"
+kw <- "dim, number, ncol, nrow, observation, duplicate, unique, name, identical, mismatch, merge, join, type, numeric, date, format, address, nchar, tolower, toupper, grep, missing, empty, complete, null, is.na, non-?response, refusal, drop-out, missing value code, jump"
+pk <- "assertable assertive assertr clickR DataExplorer dataquieR dataReporter DescTools dlookr DQAstats ExPanDaR explore funModeling inspectdf IPDFileCheck MOQA mStats pointblank sanityTracker skimr SmartEDA StatMeasures summarytools testdat validate visdat xray"
 #####
 
 htmltools::save_html(check_package_key_word(strsplit(pk, "\\s+", perl = TRUE)[[1]],
