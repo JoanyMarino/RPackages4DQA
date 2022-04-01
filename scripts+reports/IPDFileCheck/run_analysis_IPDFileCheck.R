@@ -20,11 +20,10 @@ test_df <- data.frame(
 check_column_exists("sex", sd1)
 check_column_exists("qwer", sd1)
 
-
 # Check column names
 test_columnnames(c("age","sex", "id", "sbp1", "sbp2"), sd1)
 test_columnnames(c("id", "exdate", "age","sex", "sbp1", "sbp2"), sd1)
-# All the columns must be entered, otherwise the output is an error, see example below
+# All the columns must be entered, otherwise the output is an error (-1), see example below
 test_columnnames(c("age", "name"), test_df)
 test_columnnames(c("name", "age"), test_df)
 
@@ -67,3 +66,5 @@ test_column_contents(sd1,"sex",c(1,5))
 descriptive_stats_col_excl_nrcode(sd1, "age")
 
 represent_categorical_textdata(sd1, "sex",NA)
+
+get_summary_gtsummary(sd1, selectvar = colnames(sd1)[-c(1,2)]) # does not work for date variables

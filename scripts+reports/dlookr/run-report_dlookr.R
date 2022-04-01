@@ -9,8 +9,6 @@ if (!require(dplyr)) install.packages("dplyr")
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
-summary(sd1)
-
 # Diagnose Data ----
 sd1_overview <- overview(sd1)
 summary(sd1_overview)

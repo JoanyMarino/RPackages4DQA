@@ -14,7 +14,7 @@ sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 explore(sd1)
 
 # Run report ----
-sdq %>% report(output_dir = gewd())
+sd1 %>% report(output_dir = getwd())
 
 # Manual exploration ----
 # explore by variable

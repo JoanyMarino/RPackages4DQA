@@ -8,10 +8,8 @@ if (!require(dataquieR)) install.packages("dataquieR")
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
-summary(sd1)
-
 # Load metadata ---- !
-md1 <- read_csv(system.file("extdata", "ship_meta.csv"))
+md1 <- readRDS(system.file("extdata", "ship_meta.RDS", package = "dataquieR"))
 
 # Run report ----
 ship_report <- dq_report(study_data = sd1,

@@ -27,6 +27,8 @@ agent <-
   ) %>%
   # Data elements
   col_exists(vars(id, sex, sbp1, sbp2)) %>%
+  # Data records
+  row_count_match(tbl_compare = as.data.frame(matrix(0, nrow = 2154, ncol = 4))) %>%
   # Duplicates
   rows_distinct(vars(id, sex, sbp1, sbp2)) %>%
   # Type

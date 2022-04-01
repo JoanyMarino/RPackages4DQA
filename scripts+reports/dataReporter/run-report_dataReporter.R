@@ -11,8 +11,6 @@ library(dataReporter)
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
-summary(sd1)
-
 # Run report ----
 makeDataReport(sd1)
 

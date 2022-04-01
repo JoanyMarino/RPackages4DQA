@@ -9,8 +9,6 @@ if (!require(tidyverse)) install.packages("tidyverse")
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
-summary(sd1)
-
 # Run report ----
 create_report(sd1,
               output_format = html_document(toc = TRUE, toc_depth = 6, theme = "yeti"),
