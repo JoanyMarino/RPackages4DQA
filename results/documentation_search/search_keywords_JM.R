@@ -33,13 +33,12 @@ check_package_key_word <- function(packages = c(), terms = c()) {
 }
 
 # edit accordingly ####
-kw <- "confor, verific, valid, temporal, 
-limit, range, bound, between, outside, expect, contain"
-# date, time, past, before, after, POSIXct, POSIXlt, 
-# match, categorical, level, factor, 
-# string, 
-# precision, decimal, format, 
-# forbidd, plausib, condition, contradict, inconsisten
+kw <- "limit, range, bound, between, contain
+date, time, POSIXct, POSIXlt,
+outside, categorical, level, factor,
+classif, standardi, codelist,
+precision, decimal, regex,
+forbidd, plausib, condition, contradict, inconsisten, expect"
 pk <- "assertable assertive assertr clickR DataExplorer DataExplorer dataquieR dataReporter DescTools dlookr DQAstats DQAstats ExPanDaR explore funModeling inspectdf IPDFileCheck MOQA mStats observer pointblank sanityTracker skimr SmartEDA StatMeasures summarytools testdat validate visdat xray"
 #####
 
