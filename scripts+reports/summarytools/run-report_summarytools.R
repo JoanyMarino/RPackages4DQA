@@ -8,8 +8,6 @@ if (!require(summarytools)) install.packages("summarytools")
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
-summary(sd1)
-
 # Run report ----
 view(dfSummary(sd1))
 

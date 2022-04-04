@@ -24,3 +24,15 @@ peek(sd1)
 mydata <- data.frame(factor1=factor(c("Control", "Treatment", "Tretament", "Tratment", "treatment","teatment", "contrl", "cntrol", "CONTol", "not available", "na")))
 fix_levels(mydata, "factor1", k=4, plot=TRUE)   #Chose k to select matching levels
 fix_levels(mydata, "factor1", levels=c("Control", "Treatment"), k=4)
+
+# Data types
+#may.numeric(sd1) # function not found
+ff <- fix_numerics(sd1[, c("waist", "ldl", "hdl")])
+track_changes(ff)
+gg <- fix_numerics(sd1[, c("ldl", "hdl")])
+track_changes(gg)
+hh <- fix_dates(sd1[, c("id", "exdate")])
+track_changes(hh)
+
+# Missing values
+mine.plot(sd1[, c("id", "exdate", "age", "height", "ldl", "hdl")])

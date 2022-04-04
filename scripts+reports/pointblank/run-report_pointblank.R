@@ -73,3 +73,24 @@ tbl %>%
   test_col_vals_expr(expr = ~ case_when(
     b == 1 ~ a > 5 & c >= 1
   ))
+
+# Data set comparisons:
+
+tbl2 <- tbl
+tbl2$d <- letters[1:6]
+schema_obj <-
+  col_schema(
+    a = "numeric",
+    b = "numeric",
+    cc = "numeric",
+    d = "character"
+  )
+create_agent(tbl = tbl2) %>%
+  col_schema_match(schema_obj) %>%
+  interrogate() %>%
+  all_passed()
+
+create_agent(tbl = tbl) %>%
+  tbl_match(tbl_compare = tbl2) %>%
+  interrogate() %>%
+  all_passed()
