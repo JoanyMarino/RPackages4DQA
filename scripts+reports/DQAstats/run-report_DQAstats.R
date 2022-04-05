@@ -96,3 +96,22 @@ all_results <- DQAstats::dqa(
 )
 
 
+# test for two non-matching data sets:
+
+# Set environment vars to demo files paths:
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = "./scripts+reports/DQAstats/demo2_data")
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = "./scripts+reports/DQAstats/demo2_data")
+# Set path to utilities folder where to find the mdr and template files:
+utils_path <- system.file("demo_data/utilities",
+                          package = "DQAstats")
+
+base_dir <- "scripts+reports/DQAstats"
+# Execute the DQA and generate a PDF report:
+results <- DQAstats::dqa(
+  source_system_name = "exampleCSV_source",
+  target_system_name = "exampleCSV_target",
+  utils_path = utils_path,
+  mdr_filename = "mdr_example_data.csv",
+  output_dir = here::here(base_dir, "demo2_output"),
+  parallel = FALSE
+)

@@ -64,7 +64,11 @@ test_column_contents(sd1,"sex",c(1,5))
 
 # Descriptive stats
 descriptive_stats_col_excl_nrcode(sd1, "age")
+descriptive_stats_col_excl_nrcode(sd1, "school", nrcode = c(NA, 99900, 99914)) # error, accepts only a single missing value code
 
 represent_categorical_textdata(sd1, "sex",NA)
 
 get_summary_gtsummary(sd1, selectvar = colnames(sd1)[-c(1,2)]) # does not work for date variables
+
+# get unique values of a single column
+get_contents_cols(sd1, "age")

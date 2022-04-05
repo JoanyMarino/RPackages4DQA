@@ -8,8 +8,6 @@ if (!require(assertive)) install.packages("assertive")
 # Study of Health in Pomerania
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
-# summary(sd1)
-
 # Run analysis ----
 
 # Checks for all argument types ----
@@ -27,9 +25,11 @@ is_numeric(sd1$waist)
 # (Unexpected data records) ----
 n_elements(sd1$id)
 n_elements(sd1$age)
+DIM(sd1)
 
 # (Duplicates) ----
 has_duplicates(sd1)
+has_no_duplicates(sd1)
 
 # (Uncertain missingness status) ----
 assert_all_are_not_na(sd1$id)

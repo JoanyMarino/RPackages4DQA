@@ -20,7 +20,7 @@ if (!require(drat)) install.packages("drat")
 sd1 <- readRDS(system.file("extdata", "ship.RDS", package = "dataquieR"))
 
 # Read rules ----
-validation_rules <- validator(.file="./validate/validation_rules_ship.R")
+validation_rules <- validator(.file="./scripts+reports/validate/validation_rules_ship.R")
 
 # Run validation ----
 validation_result <- confront(sd1, validation_rules, lin.ineq.eps=0,

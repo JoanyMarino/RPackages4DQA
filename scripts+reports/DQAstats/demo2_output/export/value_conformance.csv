@@ -1,0 +1,10 @@
+Variable,Check Source Data,Check Target Data
+Age in years,failed,failed
+Amount of credit,passed,passed
+Birthdate,passed,passed
+Credit worthy?,passed,passed
+Current bank balance,failed,failed
+Date of contact,passed,passed
+Income,passed,failed
+Sex,passed,failed
+pl.atemporal.item01,passed,failed

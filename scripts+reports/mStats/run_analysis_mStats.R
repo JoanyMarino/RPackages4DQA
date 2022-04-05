@@ -20,6 +20,8 @@ summary(x)
 
 # Duplicates
 dups <- duplicates(sd1)
+dups2 <- duplicates(rbind(sd1[1:3, ], sd1[2:5, ], sd1))
+table(dups2$dup_num)
 
 # Distributions
 histogram(sd1, age)

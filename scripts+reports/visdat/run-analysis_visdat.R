@@ -31,6 +31,12 @@ sd1 %>%
   select_if(is.numeric) %>%
   vis_cor()
 
+
+# Check for correct dimensions ----
+vis_compare(sd1, data.frame(matrix(0, nrow = 2000, ncol = 29)))
+vis_compare(sd1, data.frame(matrix(0, nrow = 2154, ncol = 30)))
+vis_compare(sd1, data.frame(matrix(0, nrow = 2154, ncol = 29)))
+
 # make a new dataset of iris that contains some NA values
 aq_diff <- airquality
 aq_diff[1:10, 1:2] <- sample(c(1:100), size = 20, replace = TRUE)
@@ -63,4 +69,5 @@ dat_ms <- tibble::tribble(~x, ~y, ~z,
                           "na", "F", -1)
 vis_expect(dat_ms, ~.x %in% common_na)
 
-           
+all_numeric(sd1)
+            

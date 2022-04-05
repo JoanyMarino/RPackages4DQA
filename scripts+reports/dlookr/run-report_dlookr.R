@@ -14,6 +14,9 @@ sd1_overview <- overview(sd1)
 summary(sd1_overview)
 plot(sd1_overview)
 
+find_class(sd1, "numerical", index = FALSE)
+find_class(sd1, "date_categorical2", index = FALSE)
+
 # Needs to be run again because missing codes are included in the data
 diagnosis <- diagnose(sd1)
 diagnose_numeric(sd1)
@@ -81,7 +84,7 @@ sd1 %>%
                  output_file = "dlookr_EDA_ship_report.html", 
                  theme = "blue")
 
-
+# does not finish:
 # sd1 %>%
 #   eda_paged_report(subtitle = "SHIP", 
 #                    output_dir = ".", 

@@ -53,3 +53,9 @@ identifyMissing(factor(v3))
 
 identifyLoners(c(rep(c("a", "b", "c"), 10), "d", "d"))
 identifyLoners(sd1$waist)
+uniqueValues(sd1$id)
+uniqueValues(sd1$hdl)
+
+varX <- c(rep(c(1,2,3), each=10))
+class(varX)
+variableType(varX)

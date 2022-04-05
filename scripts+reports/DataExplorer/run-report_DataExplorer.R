@@ -15,3 +15,10 @@ create_report(sd1,
               output_file = "DataExplorer_ship_report.html",
               report_title = "SHIP Data Profiling Report"
 )
+
+# test single functions
+introduce(sd1)#
+plot_intro(sd1)
+plot_str(sd1)
+plot_missing(sd1)
+profile_missing(sd1)
