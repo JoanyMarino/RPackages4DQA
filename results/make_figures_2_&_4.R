@@ -4,20 +4,27 @@ library(tidyverse)
 library(dplyr)
 library(readxl)
 
+source("./000_CONVERT/convert.R")
+input <- "./data/DQ revision overview third consensus_2022-04-05_19-10.xlsx"
+output <- "./data/DQ_paper_table_v08.xlsx"
+convert_tables(input, output)
+
+
 # Arrange data ----
 
-dq_table <- read_excel("./data/DQ_paper_table_v06_indicators.xlsx")
+dq_table <- read_excel("./data/DQ_paper_table_v07.xlsx")
 
 # Remove last rows
-dq_table <- dq_table[-seq(25, nrow(dq_table)),]
-dq_table <- subset(dq_table, select=-c(discoveR, mdapack))
-
+# dq_table <- dq_table[-seq(25, nrow(dq_table)),]
+# dq_table <- subset(dq_table, select=-c(discoveR, mdapack))
 
 # Split tables
-dq_broad_wide <- dq_table[c(1:14),]
-dq_domains_wide <- dq_table[c(15:24),]
+dq_broad_wide <- dq_table[c(1:15),]
+dq_broad_wide <- dq_broad_wide[-2,]
+dq_domains_wide <- dq_table[c(26:37),]
+dq_domains_wide <- dq_domains_wide[-c(4,7),]
 
-# Figure 2: Broad criteria ----
+# Figure 4: Broad criteria ----
 
 # Convert to long format
 dq_long <- dq_broad_wide %>%  
@@ -57,7 +64,7 @@ dq_broad$Criteria <- factor(dq_broad$Criteria,
 dq_broad$Feature <- factor(dq_broad$Feature, 
                            levels = c("Incorporated", "Not incorporated"))
 
-fig2 <- ggplot(dq_broad, 
+fig4 <- ggplot(dq_broad, 
                aes(fill = forcats::fct_rev(Feature), y = n, x = Criteria, label = n)) +
   geom_bar(position = "fill", 
            stat = "identity", 
@@ -81,7 +88,7 @@ fig2 <- ggplot(dq_broad,
         legend.text = element_text(size=rel(1.3))
   )
 
-# Figure 3: Data Quality criteria ----
+# Figure 2: Data Quality criteria ----
 
 # Convert to long format
 dq_domains_long <- dq_domains_wide %>%  
@@ -92,8 +99,8 @@ dq_domains_long <- dq_domains_wide %>%
     values_drop_na = FALSE) %>% 
   mutate(Criteria = factor(Criteria),
          Package = factor(Package), 
-         Feature = case_when(!str_detect(Feature, "d") ~ "Indicator", 
-                             str_detect(Feature, "d") ~ "Descriptor", 
+         Feature = case_when(!str_detect(Feature, "D") ~ "Indicator", 
+                             str_detect(Feature, "D") ~ "Descriptor", 
                              # else, no
                              TRUE ~ "Not incorporated")) 
 
@@ -116,7 +123,7 @@ dq_domains$Criteria <- factor(dq_domains$Criteria,
 dq_domains$Feature <- factor(dq_domains$Feature, 
                              levels = c("Indicator", "Descriptor", "Not incorporated"))
 
-fig3 <- ggplot(dq_domains, 
+fig2 <- ggplot(dq_domains, 
                aes(fill = forcats::fct_rev(Feature), y = n, x = Criteria, label = n)) +
   geom_bar(position = "fill", 
            stat = "identity", 
@@ -144,5 +151,5 @@ fig3 <- ggplot(dq_domains,
 
 # Export ----
 
-ggsave("figs/fig2_v10.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
-ggsave("figs/fig3_v10.pdf", fig3, width = 12, height = 6, units = "in", dpi = 400)
+ggsave("figs/fig4_v13.pdf", fig4, width = 12, height = 6, units = "in", dpi = 400)
+ggsave("figs/fig2_v13.pdf", fig2, width = 12, height = 6, units = "in", dpi = 400)
