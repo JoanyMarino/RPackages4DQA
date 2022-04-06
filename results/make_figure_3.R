@@ -7,12 +7,14 @@ library(patchwork)
 
 # Arrange data ----
 
-dq_table <- read_excel("./data/DQ_paper_table_v06_indicators.xlsx")
+dq_table <- read_excel("./data/DQ_paper_table_v08.xlsx")
 
 # Remove last rows
-dq_table <- subset(dq_table, select=-c(discoveR, mdapack))
-dq_table <- dq_table[-seq(1, 14),]
-dq_table <- dq_table[-seq(11, nrow(dq_table)),]
+# dq_table <- subset(dq_table, select=-c(discoveR, mdapack))
+# dq_table <- dq_table[-seq(1, 14),]
+dq_table <- dq_table[c(26:37),]
+# dq_table <- dq_table[-seq(11, nrow(dq_table)),]
+dq_table <- dq_table[-c(4,7),]
 
 pkgs <-  dq_table %>% 
   separate(Criteria, c("Dimension", "Domain"), extra = "merge", fill = "right") %>% 
@@ -33,13 +35,13 @@ pkgs <-  dq_table %>%
   separate_rows(Feature) %>% 
   arrange(Package, Dimension, Feature) %>%
   mutate(Package = recode(Package, 
-                          dataReporter1 = "dataReporter^1", 
-                          MOQA2 = "MOQA^2", 
-                          validate3 = "validate^3"))
+                          dataReporter = "dataReporter^1", 
+                          MOQA = "MOQA^2", 
+                          validate = "validate^3"))
 
 pkgs_long <-  pkgs %>% 
   mutate(Attribute = case_when(
-    str_detect(Feature, pattern = '(^|,)[0-9]+d(,|$)') == TRUE ~ "Descriptor", 
+    str_detect(Feature, pattern = '(^|,)[0-9]+D(,|$)') == TRUE ~ "Descriptor", 
     TRUE ~ "Indicator"
   )) %>%
   subset(select = -Feature) %>%
@@ -60,19 +62,21 @@ pkgs_long <- pkgs_long %>%
                                 "Accuracy Indicator",
                                 "Consistency Descriptor",
                                 "Consistency Indicator",
-                                # "Completeness Descriptor",
+                                "Completeness Descriptor",
                                 "Completeness Indicator",
                                 "Integrity Descriptor",
                                 "Integrity Indicator"
   )) 
 
-pal2 <- c("#005191", "#56B4E9", # blues
-          "#FCBD0D", # yellow
-          "#007556", "#00CC96", # greens
-          "#8F2A27", "#DB917D") # reds 
+pal2 <- c(
+  "#005191", "#56B4E9", # blues
+    "#E59100", "#FCBD0D",  # yellows
+    "#007556", "#00CC96", # greens
+    "#8F2A27", "#DB917D" # reds 
+  ) 
 
-# Figure 4: Indicators by package ----
-fig4 <- ggplot(pkgs_long, 
+# Figure 3: Indicators by package ----
+fig3 <- ggplot(pkgs_long, 
                aes(x = Package,
                    group = Combined,
                    fill = Combined 
@@ -109,7 +113,7 @@ fig4 <- ggplot(pkgs_long,
         legend.text = element_text(size=rel(1.4))
   ) 
 
-fig4
+fig3
 
 # Export ----
-ggsave("figs/fig4_v10.pdf", fig4, width = 14, height = 8.5, units = "in", dpi = 400)
+ggsave("figs/fig3_v13.pdf", fig3, width = 14, height = 8.5, units = "in", dpi = 400)
