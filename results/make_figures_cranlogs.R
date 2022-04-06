@@ -18,7 +18,7 @@ pkg_publ <- sapply(unique(dwn$package), function(pp) {
 
 # group packages as in our review
 pkg_groups <- data.frame(package = c("assertable", "assertive", "assertr", "clickR", "DataExplorer", "dataquieR", "dataReporter", "DescTools", "dlookr", "DQAstats", "ExPanDaR", "explore", "funModeling", "inspectdf", "IPDFileCheck", "MOQA", "mStats", "pointblank", "sanityTracker", "skimr", "SmartEDA", "StatMeasures", "summarytools", "testdat", "validate", "visdat", "xray"),
-                         group_package = c("explorative", "rule-based", "dq focus")[c(2,2,2,1,1,3,2,1,1,3,1,1,1,2,2,3,1,3,2,1,1,1,1,2,2,1,1)],
+                         group_package = c("explorative", "rule-based", "dq focus")[c(2,2,2,1,1,3,3,1,1,3,1,1,1,1,2,3,1,3,2,1,1,1,1,2,2,1,1)],
                          first_publ = pkg_publ)
 
 library(dplyr)
@@ -161,6 +161,6 @@ p4 <- p1 / p2 / p3 +
 p4
 
 # export
-ggsave(p0, filename = "figs/fig5_v1.pdf", width = 12, height = 7, units = "in", dpi = 400)
-ggsave(p0 + scale_y_log10(), filename = "figs/fig5_v2.pdf", width = 12, height = 7, units = "in", dpi = 400)
-ggsave(p4, filename = "figs/fig5_v3.pdf", width = 12, height = 12, units = "in", dpi = 400)
+#ggsave(p0, filename = "figs/fig5_v1.pdf", width = 12, height = 7, units = "in", dpi = 400)
+#ggsave(p0 + scale_y_log10(), filename = "figs/fig5_v2.pdf", width = 12, height = 7, units = "in", dpi = 400)
+ggsave(p4, filename = "figs/fig5_v3.pdf", width = 10.5, height = 11, units = "in", dpi = 400)
