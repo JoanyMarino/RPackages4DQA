@@ -25,33 +25,37 @@ library(dplyr)
 library(lubridate)
 Sys.setlocale(category = "LC_TIME", locale = "English")
 library(ggplot2)
-
-# cumulative numbers
-#dwn_cumsum <- dwn %>%
-#  group_by(package) %>%
-#  mutate(cumsum = cumsum(count))
-
-# set download numbers from 0 to NA before first release
-dwn_cut <- left_join(dwn, pkg_groups) %>%
-  mutate(count = ifelse(date < first_publ, NA, count)) %>%
-  select(-first_publ)
+library(scales)
 
 # summarise download numbers per month
-dwn_mon <- dwn_cut %>% 
+dwn_mon <- dwn %>% 
   mutate(group_month = floor_date(date, "months")) %>%
   group_by(package, group_month) %>% 
-  summarise(count_mon = sum(count)) %>%
-  ungroup() %>%
-  mutate(date_label = paste(month(group_month, label = TRUE), year(group_month))) %>%
-  left_join(., pkg_groups[,1:2])
+  summarise(count_mon = sum(count, na.rm = TRUE)) %>%
+  ungroup()
+
+# set download numbers from 0 to NA before first release
+dwn_mon <- dwn_mon %>%
+  left_join(., pkg_groups) %>%
+  mutate(first_publ_month = floor_date(as.Date(first_publ), "months")) %>%
+  mutate(count_mon = ifelse(group_month < first_publ_month, NA, count_mon)) %>%
+  select(-first_publ, -first_publ_month)
+
+# for plot: plot monthly number at the 15th of a month, not at the first
+dwn_mon$group_month <- dwn_mon$group_month + days(14)
 
 # get order of packages by total number of downloads in this time period
 dwn_sum <- dwn_mon %>% 
   group_by(package) %>% 
   summarise(total = sum(count_mon, na.rm = TRUE)) %>%
   arrange(desc(total))
-dwn_sum$package_label <- apply(dwn_sum, 1, function(rr) { 
-  paste0(rr[1], " (", as.numeric(rr[2]), ")") })
+
+format_num_mdpi <- function(xx) {
+  xxf <- ifelse(nchar(xx) > 4, format(as.numeric(xx), big.mark  =","), xx)
+  return(xxf)
+}
+
+dwn_sum$package_label <- paste0(dwn_sum$package, " (", trimws(ifelse(nchar(dwn_sum$total) > 4, format(dwn_sum$total, big.mark  =","), dwn_sum$total)), ")")
 dwn_sum <- left_join(dwn_sum, pkg_groups[,1:2])
 
 # plots
@@ -121,7 +125,7 @@ p1 <- dwn_mon %>%
   geom_line(size = 1) +
   theme_light() +
   scale_x_date(expand = c(0,0)) +
-  scale_y_continuous(expand = expansion(mult = 0.03)) + 
+  scale_y_continuous(expand = expansion(mult = 0.03), labels = format_num_mdpi) + 
   labs(y = "number of downloads per month", x = "") +
   scale_color_manual(values = mypal, 
                      labels = dwn_sum$package_label[which(dwn_sum$group_package == "dq focus")]) +
@@ -134,7 +138,7 @@ p2 <- dwn_mon %>%
   geom_line(size = 1) +
   theme_light() +
   scale_x_date(expand = c(0,0)) +
-  scale_y_continuous(expand = expansion(mult = 0.03)) + 
+  scale_y_continuous(expand = expansion(mult = 0.03), labels = format_num_mdpi) + 
   labs(y = "number of downloads per month", x = "") +
   scale_color_manual(values = mypal, 
                      labels = dwn_sum$package_label[which(dwn_sum$group_package == "explorative")]) +
@@ -147,7 +151,7 @@ p3 <- dwn_mon %>%
   geom_line(size = 1) +
   theme_light() +
   scale_x_date(expand = c(0,0)) +
-  scale_y_continuous(expand = expansion(mult = 0.03)) + 
+  scale_y_continuous(expand = expansion(mult = 0.03), labels = format_num_mdpi) + 
   labs(y = "number of downloads per month", x = "") +
   scale_color_manual(values = mypal,
                      labels = dwn_sum$package_label[which(dwn_sum$group_package == "rule-based")]) +
@@ -163,4 +167,4 @@ p4
 # export
 #ggsave(p0, filename = "figs/fig5_v1.pdf", width = 12, height = 7, units = "in", dpi = 400)
 #ggsave(p0 + scale_y_log10(), filename = "figs/fig5_v2.pdf", width = 12, height = 7, units = "in", dpi = 400)
-ggsave(p4, filename = "figs/fig5_v3.pdf", width = 10.5, height = 11, units = "in", dpi = 400)
+ggsave(p4, filename = "figs/fig5_v4.pdf", width = 10.5, height = 11, units = "in", dpi = 400)
