@@ -126,12 +126,12 @@ p1 <- dwn_mon %>%
   theme_light() +
   scale_x_date(expand = c(0,0)) +
   scale_y_continuous(expand = expansion(mult = 0.03), labels = format_num_mdpi) + 
-  labs(y = "number of downloads per month", x = "") +
+  labs(y = "number of downloads\nper month", x = "") +
   scale_color_manual(values = mypal, 
                      labels = dwn_sum$package_label[which(dwn_sum$group_package == "dq focus")]) +
   scale_linetype_manual(values = mylintyp, 
                         labels = dwn_sum$package_label[which(dwn_sum$group_package == "dq focus")]) +
-  guides(colour = guide_legend(override.aes = list(size = 0.6)))
+  guides(colour = guide_legend(override.aes = list(size = 0.6), keyheight = 0.8))
 p2 <- dwn_mon %>%
   filter(group_package == "explorative") %>%
   ggplot(aes(x = group_month, y = count_mon, group = package, col = package, linetype = package)) +
@@ -139,12 +139,12 @@ p2 <- dwn_mon %>%
   theme_light() +
   scale_x_date(expand = c(0,0)) +
   scale_y_continuous(expand = expansion(mult = 0.03), labels = format_num_mdpi) + 
-  labs(y = "number of downloads per month", x = "") +
+  labs(y = "number of downloads\nper month", x = "") +
   scale_color_manual(values = mypal, 
                      labels = dwn_sum$package_label[which(dwn_sum$group_package == "explorative")]) +
   scale_linetype_manual(values = mylintyp, 
                         labels = dwn_sum$package_label[which(dwn_sum$group_package == "explorative")]) +
-  guides(colour = guide_legend(override.aes = list(size = 0.6)))
+  guides(colour = guide_legend(override.aes = list(size = 0.6), keyheight = 0.8))
 p3 <- dwn_mon %>%
   filter(group_package == "rule-based") %>%
   ggplot(aes(x = group_month, y = count_mon, group = package, col = package, linetype = package)) +
@@ -152,12 +152,12 @@ p3 <- dwn_mon %>%
   theme_light() +
   scale_x_date(expand = c(0,0)) +
   scale_y_continuous(expand = expansion(mult = 0.03), labels = format_num_mdpi) + 
-  labs(y = "number of downloads per month", x = "") +
+  labs(y = "number of downloads\nper month", x = "") +
   scale_color_manual(values = mypal,
                      labels = dwn_sum$package_label[which(dwn_sum$group_package == "rule-based")]) +
   scale_linetype_manual(values = mylintyp, 
                         labels = dwn_sum$package_label[which(dwn_sum$group_package == "rule-based")]) +
-  guides(colour = guide_legend(override.aes = list(size = 0.6)))
+  guides(colour = guide_legend(override.aes = list(size = 0.6), keyheight = 0.8))
 
 library(patchwork)
 p4 <- p1 / p2 / p3 + 
@@ -167,4 +167,4 @@ p4
 # export
 #ggsave(p0, filename = "figs/fig5_v1.pdf", width = 12, height = 7, units = "in", dpi = 400)
 #ggsave(p0 + scale_y_log10(), filename = "figs/fig5_v2.pdf", width = 12, height = 7, units = "in", dpi = 400)
-ggsave(p4, filename = "figs/fig5_v4.pdf", width = 10.5, height = 11, units = "in", dpi = 400)
+ggsave(p4, filename = "figs/fig5_v4.pdf", width = 9.5, height = 9, units = "in", dpi = 400)
