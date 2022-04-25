@@ -41,7 +41,19 @@ Reviewed R packages (in alphabetical order):
 
 ## Reference
 
-Our systematic comparison of the packages' capabilities for data quality assessments is published here (to be updated once the manuscript is published). 
+J. Mariño, E. Kasbohm, S. Struckmann, L.A. Kapsner, and C.O. Schmidt, R Packages for Data Quality Assessments and Data Monitoring: A Software Scoping Review with Recommendations for Future Developments, Applied Sciences. (2022) 26. [doi:10.3390/app12094238](https://doi.org/10.3390/app12094238).
+
+```
+@article{
+  title = {R {{Packages}} for {{Data Quality Assessments}} and {{Data Monitoring}}: {{A Software Scoping Review}} with {{Recommendations}} for {{Future Developments}}},
+  author = {Mari{\~n}o, Joany and Kasbohm, Elisa and Struckmann, Stephan and Kapsner, Lorenz A and Schmidt, Carsten O},
+  year = {2022},
+  journal = {Applied Sciences},
+  pages = {26},
+  doi = {10.3390/app12094238},
+  langid = {english}
+}
+``` 
 
 ## Contributing
 
